@@ -16,6 +16,8 @@ import { Button } from "@/components/ui/button";
 import { baseSchema } from "@/lib/zod/zodSchema";
 import SocialLogin from "./SocialLogin";
 import Link from "next/link";
+import { signIn } from "next-auth/react"
+
 
 
 const loginSchema = baseSchema.pick({ email: true, password: true })
@@ -36,8 +38,14 @@ export default function Login() {
     },
   })
 
-  const onSubmit = (data: LoginFormData) => {
-    console.log('data:', data);
+  const onSubmit = async (data: LoginFormData) => {
+
+    const res = await signIn('credentials', {
+      email: data.email,
+      password: data.password,
+      redirect: false
+    })
+    console.log(res);
   }
 
   return (

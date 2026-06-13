@@ -1,4 +1,6 @@
 import { connectDb } from "@/lib/db/db";
+import { User } from "@/schemas/user.schema";
+import bcrypt from "bcryptjs";
 import NextAuth from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import GoogleProvider from "next-auth/providers/google";
@@ -21,38 +23,27 @@ export const authOptions = {
                 await connectDb()
 
                 // find user 
-                const user = await UserModel.findOne({ email: credentials?.email }).select("+password")
+                const user = await User.findOne({ email: credentials?.email }).select("+password")
                 if (!user) {
                     throw new Error("Invalid credentials")
                 }
 
-                // checking email verification
-                if (!user.isEmailVerified) {
-                    await sendVerificationEmail({
-                        userId: String(user._id),
-                        email: user.email
-                    })
-                    throw new Error("Email not verified. A new verification email has been sent to your inbox.")
-
-                }
-
                 // compare password
                 const isPasswordMatched =
-                    await user.comparePassword(
-                        credentials.password
-                    )
+                    await bcrypt.compare(credentials.password, user.password)
 
                 if (!isPasswordMatched) {
                     throw new Error("Invalid credentials")
                 }
 
-               
-                
+
+
                 // success login
                 return {
                     id: user._id.toString(),
                     name: user.name,
                     email: user.email,
+                    role: user.role
                 }
 
             }
