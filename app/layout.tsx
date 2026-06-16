@@ -33,16 +33,17 @@ export default function RootLayout({
       lang="en"
       className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, "font-sans", inter.variable)}
     >
-      <header>
-        <Navbar />
-      </header>
-      <body className="min-h-full flex flex-col">
-        <main className="px-3">
-          <AuthProvider>
+
+      <body className="">
+        <AuthProvider>
+          <header>
+            <Navbar />
+          </header>
+          <main className="px-3 min-h-full flex flex-col">
             {children}
-          </AuthProvider>
-          <Toaster />
-        </main>
+            <Toaster />
+          </main>
+        </AuthProvider>
       </body>
     </html>
   );
