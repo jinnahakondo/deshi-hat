@@ -48,6 +48,6 @@ export const response = {
 
 
 
-export const isValidObjectId = (id: string) => {
+export const isValidId = (id: string) => {
     return mongoose.Types.ObjectId.isValid(id);
 };

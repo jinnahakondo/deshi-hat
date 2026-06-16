@@ -1,5 +1,5 @@
 import { connectDb } from "@/lib/db/db";
-import { isValidObjectId, response } from "@/lib/helperFunction";
+import { isValidId, response } from "@/lib/helperFunction";
 import User from "@/schemas/user.schema";
 import bcrypt from "bcryptjs";
 import { NextRequest } from "next/server";
@@ -14,7 +14,7 @@ export async function GET(req: NextRequest, { params }: routeProps) {
     try {
         const { id } = await params
 
-        if (!isValidObjectId(id)) {
+        if (!isValidId(id)) {
             return response.error({
                 message: "invalid user id",
                 status: 400,
@@ -50,7 +50,7 @@ export async function PATCH(req: NextRequest, { params }: routeProps) {
     try {
         const { id } = await params
 
-        if (!isValidObjectId(id)) {
+        if (!isValidId(id)) {
             return response.error({
                 message: "invalid user id",
                 status: 400,
@@ -130,7 +130,7 @@ export async function DELETE(req: NextRequest, { params }: routeProps) {
     try {
         const { id } = await params;
 
-        if (!isValidObjectId(id)) {
+        if (!isValidId(id)) {
             return response.error({
                 message: "invalid user id",
                 status: 400,
