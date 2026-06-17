@@ -7,18 +7,32 @@ import {
     DrawerClose,
     DrawerTitle,
     DrawerHeader,
+    DrawerFooter,
 } from "@/components/ui/drawer"
-import { Menu, X } from 'lucide-react'
+import { Heart, Menu, X } from 'lucide-react'
 import { links } from '../navLinks';
 import NavLink from '../NavLink';
 import SearchBar from '../SearchBar';
+import LogOutButton from '@/components/LogOutButton';
+import { getServerSession } from 'next-auth';
 
 
 
-export default function Sidebar() {
+export default async function Sidebar() {
+
+    const session = await getServerSession()
+
+    const mobileLinks = [
+        {
+            link: '/dashboard/wishlist',
+            label: "Wishlist",
+            icon: Heart
+        },
+        ...links,
+    ]
 
     return (
-        <Drawer direction='right'>
+        <Drawer direction='left'>
             <DrawerTrigger asChild>
                 <button
                     className='md:hidden p-2 hover:text-primary transition-colors'
@@ -28,7 +42,6 @@ export default function Sidebar() {
                 </button>
             </DrawerTrigger>
 
-            {/* The fixed h-full and right-0 alignments make it slide out like a standard sidebar drawer */}
             <DrawerContent className="top-0 right-0 left-auto mt-0 h-full w-full max-w-sm rounded-l-3xl rounded-r-none border-l bg-white p-0 flex flex-col justify-between">
 
                 {/* Top Section */}
@@ -48,8 +61,9 @@ export default function Sidebar() {
                         <SearchBar />
                     </div>
                     {/* Navigation Links */}
+
                     <nav className="flex flex-col gap-1 p-4 ">
-                        {links.map((navItem) => {
+                        {mobileLinks.map((navItem) => {
                             const Icon = navItem.icon;
                             return (
                                 <NavLink
@@ -64,7 +78,20 @@ export default function Sidebar() {
                             )
                         })}
                     </nav>
+
                 </div>
+
+                <DrawerFooter className='flex items-center justify-center'>
+                    {/* log out / log in button  */}
+                    {
+                        session ?
+                            <LogOutButton />
+                            :
+                            <NavLink className='text-primary' href='/login'> 
+                            Login
+                            </NavLink>
+                    }
+                </DrawerFooter>
 
             </DrawerContent>
         </Drawer>

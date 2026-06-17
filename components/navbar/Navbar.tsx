@@ -7,6 +7,7 @@ import Link from 'next/link'
 import Sidebar from './mobile/Sidebar'
 import { links } from './navLinks'
 
+
 export default function Navbar() {
 
 
@@ -16,15 +17,19 @@ export default function Navbar() {
 
                 {/* Left Side: Logo & Navigation */}
                 <div className='flex items-center gap-10'>
-                    {/* Logo */}
-                    <h2 className='text-lg md:text-2xl font-bold text-foreground tracking-tight'>DeshiHat</h2>
+                    <div className='flex items-center justify-center gap-2'>
+                        {/* Mobile Menu Button */}
+                        <Sidebar />
+                        {/* Logo */}
+                        <h2 className='text-lg md:text-2xl font-bold text-foreground tracking-tight'>DeshiHat</h2>
+                    </div>
 
                     {/* Navigation Links */}
                     <div className='hidden md:block'>
                         <nav className='flex items-center gap-6 text-sm font-medium text-muted-foreground'>
                             {
                                 links.map((navItem) => (
-                                    // Using the unique link path as the key instead of array index
+
                                     <NavLink
                                         activeClassName='active'
                                         key={navItem.link} href={navItem.link}>
@@ -45,17 +50,16 @@ export default function Navbar() {
                     {/* Action Buttons */}
                     <div className='flex items-center md:gap-4 text-foreground'>
                         <Cart />
-                        {/* Mobile Menu Button - Added aria-label & button tag for accessibility */}
-                        <Sidebar />
+
                         {/* Desktop Only Actions */}
                         <div className='hidden md:flex items-center gap-4'>
                             {/* Wishlist Button */}
-                            <button
+                            <Link href={'/dashboard/wishlist'}
                                 className='p-2 hover:text-primary transition-colors rounded-full hover:bg-muted/50'
                                 aria-label="View Wishlist"
                             >
-                                <Heart className='h-5 w-5 stroke-[1.5]' />
-                            </button>
+                                <Heart size={20} className=' stroke-[1.5]' />
+                            </Link>
 
                             {/* Profile Button */}
                             <Link href={'/login'}
