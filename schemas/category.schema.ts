@@ -8,12 +8,6 @@ const categorySchema = new Schema(
             unique: true,
         },
 
-        slug: {
-            type: String,
-            required: true,
-            unique: true,
-        },
-
         image: String,
     },
     {
@@ -21,6 +15,6 @@ const categorySchema = new Schema(
     }
 );
 
-const Catetory = mongoose.models.Category || mongoose.model("Category", categorySchema)
+const Category = mongoose.models.Category || mongoose.model("Category", categorySchema)
 
-export default Catetory;
+export default Category;
