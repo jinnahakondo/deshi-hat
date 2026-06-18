@@ -13,7 +13,7 @@ import { Heart, Menu, X } from 'lucide-react'
 import { links } from '../navLinks';
 import NavLink from '../NavLink';
 import SearchBar from '../SearchBar';
-import LogOutButton from '@/components/LogOutButton';
+import LogOutButton from '@/components/buttons/LogOutButton';
 import { getServerSession } from 'next-auth';
 
 
@@ -47,14 +47,9 @@ export default async function Sidebar() {
                 <div className="flex flex-col">
                     {/* Header */}
                     <DrawerHeader >
-                        <div className="flex items-center justify-between py-3 border-b border-gray-100 ">
-                            <DrawerTitle className="text-xl font-bold text-gray-900">Menu</DrawerTitle>
-                            <DrawerClose asChild>
-                                <button className="p-1 text-gray-500 hover:text-gray-900 transition-colors">
-                                    <X size={20} />
-                                </button>
-                            </DrawerClose>
-                        </div>
+
+                        <DrawerTitle className="text-xl font-bold text-gray-900">Menu</DrawerTitle>
+
                     </DrawerHeader>
                     <div className='p-4'>
                         <SearchBar />
