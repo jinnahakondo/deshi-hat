@@ -99,13 +99,13 @@ export async function PATCH(req: NextRequest, { params }: routeProps) {
             );
         }
 
-        const updatedUser = await User.findByIdAndUpdate(
+        const result = await User.findByIdAndUpdate(
             id,
             update,
             { new: true, runValidators: true }
         );
 
-        if (!updatedUser) {
+        if (!result) {
             return response.error({
                 message: "user not found",
                 status: 404,
@@ -114,7 +114,7 @@ export async function PATCH(req: NextRequest, { params }: routeProps) {
 
         return response.success({
             message: "user updated successfully",
-            data: updatedUser
+            data: result
         })
 
     } catch (error: any) {
