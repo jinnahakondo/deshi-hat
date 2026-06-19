@@ -1,5 +1,7 @@
 import { NextResponse } from "next/server";
 import mongoose from "mongoose";
+import slugify from 'slugify';
+import crypto from 'crypto'
 
 type SuccessResponse<T = unknown> = {
     data?: T;
@@ -51,3 +53,16 @@ export const response = {
 export const isValidId = (id: string) => {
     return mongoose.Types.ObjectId.isValid(id);
 };
+
+
+// generate unique slug 
+export const generateSlug = (name: string) => {
+    const baseSlug = slugify(name, {
+        lower: true,
+        strict: true,
+        trim: true
+    })
+
+    const uniqueId = crypto.randomBytes(2).toString('hex');
+    return `${baseSlug}-${uniqueId}`
+}

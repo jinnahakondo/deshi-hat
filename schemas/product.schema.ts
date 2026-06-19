@@ -1,6 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import slugify from "slugify"
-import crypto from "crypto"
+import { generateSlug } from "@/lib/helperFunction";
 
 
 
@@ -63,16 +62,7 @@ const productSchema = new Schema(
 
 productSchema.pre("save", async function () {
     if (!this.isModified("title")) return
-
-    const baseSlug = slugify(this.title, {
-        lower: true,
-        strict: true,
-        trim: true
-    })
-
-    const uniqueId = crypto.randomBytes(2).toString('hex');
-
-    this.slug = `${baseSlug}-${uniqueId}`
+    this.slug = generateSlug(this.title)
 })
 
 const Product =

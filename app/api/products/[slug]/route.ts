@@ -1,5 +1,5 @@
 import { connectDb } from "@/lib/db/db";
-import { response } from "@/lib/helperFunction";
+import { generateSlug, response } from "@/lib/helperFunction";
 import Product from "@/schemas/product.schema";
 import { NextRequest } from "next/server";
 import slugify from "slugify"
@@ -41,14 +41,8 @@ export async function PATCH(req: NextRequest, { params }: IParams) {
         const payload = await req.json()
 
         if (payload.title) {
-            const baseSlug = slugify(payload.title, {
-                lower: true,
-                strict: true,
-                trim: true
-            })
 
-            const uniqueId = crypto.randomBytes(2).toString('hex');
-            payload.title = `${baseSlug}-${uniqueId}`
+            payload.title = generateSlug(payload.title)
         }
 
         const result = await Product.findOneAndUpdate(

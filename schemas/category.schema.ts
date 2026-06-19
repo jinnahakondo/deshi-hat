@@ -1,6 +1,5 @@
 import mongoose, { Schema } from "mongoose";
-import slugify from 'slugify';
-import crypto from 'crypto'
+import { generateSlug } from "@/lib/helperFunction";
 
 const categorySchema = new Schema(
     {
@@ -23,16 +22,7 @@ const categorySchema = new Schema(
 
 categorySchema.pre("save", async function () {
     if (!this.isModified("name")) return
-    
-    const baseSlug = slugify(this.name, {
-        lower: true,
-        strict: true,
-        trim: true
-    })
-
-    const uniqueId = crypto.randomBytes(2).toString('hex');
-
-    this.slug = `${baseSlug}-${uniqueId}`
+    this.slug = generateSlug(this.name)
 })
 
 const Category = mongoose.models.Category || mongoose.model("Category", categorySchema)
