@@ -12,6 +12,8 @@ interface routeProps {
 //get a user by id
 export async function GET(req: NextRequest, { params }: routeProps) {
     try {
+        await connectDb()
+
         const { id } = await params
 
         if (!isValidId(id)) {
@@ -20,8 +22,6 @@ export async function GET(req: NextRequest, { params }: routeProps) {
                 status: 400,
             });
         }
-
-        await connectDb()
 
         const user = await User.findById(id)
 
@@ -48,6 +48,9 @@ export async function GET(req: NextRequest, { params }: routeProps) {
 //update a user by id
 export async function PATCH(req: NextRequest, { params }: routeProps) {
     try {
+
+        await connectDb()
+
         const { id } = await params
 
         if (!isValidId(id)) {
@@ -96,8 +99,6 @@ export async function PATCH(req: NextRequest, { params }: routeProps) {
             );
         }
 
-        await connectDb()
-
         const updatedUser = await User.findByIdAndUpdate(
             id,
             update,
@@ -128,6 +129,8 @@ export async function PATCH(req: NextRequest, { params }: routeProps) {
 //delete a user by id
 export async function DELETE(req: NextRequest, { params }: routeProps) {
     try {
+        await connectDb()
+
         const { id } = await params;
 
         if (!isValidId(id)) {
@@ -136,8 +139,6 @@ export async function DELETE(req: NextRequest, { params }: routeProps) {
                 status: 400,
             });
         }
-
-        await connectDb()
 
         const deletedUser = await User.findByIdAndDelete(id);
 
