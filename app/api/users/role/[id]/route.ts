@@ -11,20 +11,19 @@ interface routeProps {
 
 export async function PATCH(req: NextRequest, { params }: routeProps) {
     try {
+        await connectDb()
+        await verifyRole("admin")
+
         const { id } = await params
 
         if (!isValidId(id)) {
             return response.error({
-                message: "invalid user id",
+                message: "Invalid user id",
                 status: 400,
             });
         }
 
         const role = await req.json()
-
-        await verifyRole("admin")
-
-        await connectDb()
 
         const updatedUser = await User.findByIdAndUpdate(
             id,
@@ -33,19 +32,19 @@ export async function PATCH(req: NextRequest, { params }: routeProps) {
 
         if (!updatedUser) {
             return response.error({
-                message: "user not found",
+                message: "User not found",
                 status: 404,
             });
         }
 
         return response.success({
-            message: "role updated successfully",
+            message: "Role updated successfully",
             data: updatedUser
         })
 
     } catch (error: any) {
         return response.error({
-            message: "failed to update role",
+            message: "Failed to update role",
             error: error.message
         });
     }

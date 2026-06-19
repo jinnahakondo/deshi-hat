@@ -1,3 +1,4 @@
+import { verifyRole } from "@/lib/auth/verifyAuth";
 import { connectDb } from "@/lib/db/db";
 import { isValidId, response } from "@/lib/helperFunction";
 import User from "@/schemas/user.schema";
@@ -50,6 +51,7 @@ export async function PATCH(req: NextRequest, { params }: routeProps) {
     try {
 
         await connectDb()
+        await verifyRole("admin")
 
         const { id } = await params
 
@@ -86,7 +88,7 @@ export async function PATCH(req: NextRequest, { params }: routeProps) {
         // no valid field found
         if (!Object.keys(update).length) {
             return response.error({
-                message: "no valid fields provided for update",
+                message: "No valid fields provided for update",
                 status: 400,
             });
         }
@@ -107,19 +109,19 @@ export async function PATCH(req: NextRequest, { params }: routeProps) {
 
         if (!result) {
             return response.error({
-                message: "user not found",
+                message: "User not found",
                 status: 404,
             });
         }
 
         return response.success({
-            message: "user updated successfully",
+            message: "User updated successfully",
             data: result
         })
 
     } catch (error: any) {
         return response.error({
-            message: 'failed to update user',
+            message: 'Failed to update user',
             error: error.message
         })
     }
@@ -130,6 +132,7 @@ export async function PATCH(req: NextRequest, { params }: routeProps) {
 export async function DELETE(req: NextRequest, { params }: routeProps) {
     try {
         await connectDb()
+        await verifyRole("admin")
 
         const { id } = await params;
 
@@ -140,9 +143,9 @@ export async function DELETE(req: NextRequest, { params }: routeProps) {
             });
         }
 
-        const deletedUser = await User.findByIdAndDelete(id);
+        const result = await User.findByIdAndDelete(id);
 
-        if (!deletedUser) {
+        if (!result) {
             return response.error({
                 message: "user not found",
                 status: 404,
@@ -150,12 +153,12 @@ export async function DELETE(req: NextRequest, { params }: routeProps) {
         }
 
         return response.success({
-            message: "user deleted successfull"
+            message: "User deleted successfull"
         })
 
     } catch (error: any) {
         return response.error({
-            message: "failed to delete user",
+            message: "Failed to delete user",
             error: error.message
         })
     }

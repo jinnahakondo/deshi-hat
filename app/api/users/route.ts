@@ -5,14 +5,14 @@ import User from "@/schemas/user.schema";
 export async function GET(req: Request) {
     try {
         await connectDb()
-        const users = await User.find()
+        const result = await User.find()
         return response.success({
-            data: users,
-            message: "users fetched successfully",
+            data: result,
+            message: "Users fetched successfully",
         })
     } catch (error: any) {
         return response.error({
-            message: 'failed to fetch users',
+            message: 'Failed to fetch users',
             error: error.message
         })
     }
