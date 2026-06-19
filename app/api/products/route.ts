@@ -1,7 +1,6 @@
 import { connectDb } from "@/lib/db/db";
 import { response } from "@/lib/helperFunction";
 import Product from "@/schemas/product.schema";
-import { Types } from "mongoose";
 import { NextRequest } from "next/server";
 
 
@@ -10,14 +9,14 @@ export async function GET(req: NextRequest) {
         const searchParams = req.nextUrl.searchParams
 
         const search = searchParams.get('search');
-        const categoryId = searchParams.get('categoryId')
+        const category = searchParams.get('category')
         const maxPrice = searchParams.get("max_price")
         const minPrice = searchParams.get("min_price")
 
         const query: Record<string, unknown> = {}
 
         if (search) query.title = { $regex: search, $options: "i" }
-        if (categoryId) query.category = new Types.ObjectId(categoryId)
+        if (category) query.category = { $regex: category, $options: 'i' }
 
         if (minPrice || maxPrice) {
             query.price = {
@@ -25,6 +24,8 @@ export async function GET(req: NextRequest) {
                 ...(maxPrice && { $lte: Number(maxPrice) }),
             }
         }
+
+        console.log(query);
 
         await connectDb()
 
