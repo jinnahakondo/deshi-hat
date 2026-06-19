@@ -1,4 +1,7 @@
 import mongoose, { Schema } from "mongoose";
+import slugify from "slugify"
+import crypto from "crypto"
+
 
 
 const productSchema = new Schema(
@@ -6,6 +9,10 @@ const productSchema = new Schema(
         title: {
             type: String,
             required: true,
+        },
+        slug: {
+            type: String,
+            unique: true
         },
 
         description: {
@@ -53,6 +60,20 @@ const productSchema = new Schema(
         timestamps: true,
     }
 );
+
+productSchema.pre("save", async function () {
+    if (!this.isModified("title")) return
+
+    const baseSlug = slugify(this.title, {
+        lower: true,
+        strict: true,
+        trim: true
+    })
+
+    const uniqueId = crypto.randomBytes(2).toString('hex');
+
+    this.slug = `${baseSlug}-${uniqueId}`
+})
 
 const Product =
     mongoose.models.Product || mongoose.model("Product", productSchema);
