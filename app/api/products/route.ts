@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
         const searchParams = req.nextUrl.searchParams
 
         const search = searchParams.get('search');
-        const slug = searchParams.get('category')
+        const slug = searchParams.getAll('category')
         const maxPrice = searchParams.get("max_price")
         const minPrice = searchParams.get("min_price")
 
@@ -29,22 +29,25 @@ export async function GET(req: NextRequest) {
             };
         }
 
-        if (slug) {
-            const category = await Category.findOne({ slug });
-            if (!category) {
+        if (slug && slug.length > 0) {
+            const category = await Category.find({ slug: { $in: slug } });
+            if (category.length === 0) {
                 return response.error({
                     message: "Category not found",
                     status: 404
                 });
             }
-            query.category = category._id;
+
+            const categoryIds = category.map(cat => cat._id)
+
+            query.category = { $in: categoryIds };
         }
 
         const products = await Product.find(query).populate('category')
 
         return response.success({
             data: products,
-            message: "Product fetched successfully"
+            message: products.length === 0 ? "Product not found" : "Product fetched successfully"
         })
 
     } catch (error: any) {
