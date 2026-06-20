@@ -22,7 +22,7 @@ export async function GET(req: NextRequest, { params }: IParams) {
             });
         }
 
-        const result = await Order.findOne({ id }).lean().exec()
+        const result = await Order.findById(id).lean().exec()
 
         if (!result) {
             return response.error({
@@ -51,12 +51,19 @@ export async function PATCH(req: NextRequest, { params }: IParams) {
 
         const { id } = await params
 
+        if (!isValidId(id)) {
+            return response.error({
+                message: "invalid user id",
+                status: 400,
+            });
+        }
+
         const payload = await req.json()
 
-        const result = await Order.findOneAndUpdate(
-            { id },
+        const result = await Order.findByIdAndUpdate(
+            id,
             payload,
-            { new: true, runValidators: true })
+            { new: true, runValidators: true }).exec()
 
         if (!result) {
             return response.error({
@@ -85,7 +92,14 @@ export async function DELETE(req: NextRequest, { params }: IParams) {
 
         const { id } = await params;
 
-        const result = await Order.findOneAndDelete({ id });
+        if (!isValidId(id)) {
+            return response.error({
+                message: "invalid user id",
+                status: 400,
+            });
+        }
+
+        const result = await Order.findByIdAndDelete(id).exec();
 
         if (!result) {
             return response.error({
