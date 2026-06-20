@@ -1,4 +1,4 @@
-import { verifyAuth, verifyRole } from "@/lib/auth/verifyAuth"
+import { verifyAuth } from "@/lib/auth/verifyAuth"
 import { connectDb } from "@/lib/db/db"
 import { isValidId, response } from "@/lib/helperFunction"
 import Review from "@/schemas/review.schema"
@@ -47,39 +47,39 @@ export async function GET(req: NextRequest, { params }: IParams) {
 export async function PATCH(req: NextRequest, { params }: IParams) {
     try {
         await connectDb()
-        await verifyRole("admin")
+       await verifyAuth()
 
         const { id } = await params
 
         if (!isValidId(id)) {
             return response.error({
-                message: "invalid user id",
+                message: "invalid objectId",
                 status: 400,
             });
         }
 
         const payload = await req.json()
 
-        const result = await Order.findByIdAndUpdate(
+        const result = await Review.findByIdAndUpdate(
             id,
             payload,
             { new: true, runValidators: true }).exec()
 
         if (!result) {
             return response.error({
-                message: "Order not found",
+                message: "Review not found",
                 status: 404
             })
         }
 
         return response.success({
-            message: "Order updated successfully",
+            message: "Review updated successfully",
             data: result
         })
 
     } catch (error: any) {
         return response.error({
-            message: 'Failed to update order',
+            message: 'Failed to update Review',
             error: error.message
         })
     }
@@ -88,33 +88,33 @@ export async function PATCH(req: NextRequest, { params }: IParams) {
 export async function DELETE(req: NextRequest, { params }: IParams) {
     try {
         await connectDb()
-        await verifyRole('admin')
+        await verifyAuth()
 
         const { id } = await params;
 
         if (!isValidId(id)) {
             return response.error({
-                message: "invalid user id",
+                message: "invalid objectId",
                 status: 400,
             });
         }
 
-        const result = await Order.findByIdAndDelete(id).exec();
+        const result = await Review.findByIdAndDelete(id).exec();
 
         if (!result) {
             return response.error({
-                message: "Order not found",
+                message: "Review not found",
                 status: 404,
             });
         }
 
         return response.success({
-            message: "Order deleted successfull"
+            message: "Review deleted successfull"
         })
 
     } catch (error: any) {
         return response.error({
-            message: "Failed to delete order",
+            message: "Failed to delete Review",
             error: error.message
         })
     }

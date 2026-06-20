@@ -17,10 +17,11 @@ export async function GET(req: NextRequest, { params }: IParams) {
 
         if (!isValidId(id)) {
             return response.error({
-                message: "invalid user id",
+                message: "invalid objectId",
                 status: 400,
             });
         }
+
 
         const result = await Order.findById(id).lean().exec()
 
@@ -53,7 +54,7 @@ export async function PATCH(req: NextRequest, { params }: IParams) {
 
         if (!isValidId(id)) {
             return response.error({
-                message: "invalid user id",
+                message: "invalid objectId",
                 status: 400,
             });
         }
@@ -94,7 +95,7 @@ export async function DELETE(req: NextRequest, { params }: IParams) {
 
         if (!isValidId(id)) {
             return response.error({
-                message: "invalid user id",
+                message: "invalid objectId",
                 status: 400,
             });
         }
