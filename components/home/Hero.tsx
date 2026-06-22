@@ -74,8 +74,12 @@ export function Hero() {
                         key={i} className={`h-4 w-4 rounded-full border-2 ${current === i + 1 ? "border-primary" : "border-primary/20"}`}></div>)
                 }
             </div>
-            <CarouselPrevious />
-            <CarouselNext />
+            <CarouselPrevious
+                className='left-0'
+            />
+            <CarouselNext
+                className='right-0'
+            />
         </Carousel>
     )
 }
