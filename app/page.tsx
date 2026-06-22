@@ -1,9 +1,9 @@
 
-import FashionSection from "@/components/home/category/FashionSection";
-import GroceriesSection from "@/components/home/category/GroceriesSection";
 import CategorySection from "@/components/home/CategorySection";
 import { Hero } from "@/components/home/Hero";
 import PopularSection from "@/components/home/PopularSection";
+import { cateWiseProducts } from "@/data/categoryWiseProduct";
+import CategoryWiseProducts from "@/components/home/category/CategoryWiseProducts";
 
 
 export default async function Home() {
@@ -13,8 +13,14 @@ export default async function Home() {
       <Hero />
       <CategorySection />
       <PopularSection />
-      <GroceriesSection />
-      <FashionSection />
+      {
+        cateWiseProducts.map(product => <CategoryWiseProducts
+          key={product.categorySlug}
+          categorySlug={product.categorySlug} >
+          {product.title}
+        </CategoryWiseProducts>)
+      }
+
     </div>
   )
 }

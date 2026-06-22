@@ -6,7 +6,7 @@ interface ApiResponse {
     data: Product[];
 }
 
-export default async function ProductByCategory(
+export default async function CategoryWiseProducts(
     {
         children,
         categorySlug }: {
