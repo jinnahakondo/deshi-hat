@@ -9,7 +9,7 @@ export async function GET(req: NextRequest) {
 
         const products = await Product.find()
             .sort({ averageRating: -1 })
-            .limit(5)
+            .limit(4)
             .lean()
             .exec()
 
