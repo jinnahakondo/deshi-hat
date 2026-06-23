@@ -9,6 +9,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { FieldGroup } from "../ui/field"
 import FilterPriceRange from "./FilterPriceRange"
 import { useState } from "react"
+import { Button } from "../ui/button"
 
 
 const getCategories = async (): Promise<categoryType[]> => {
@@ -27,6 +28,8 @@ export default function SidebarFilters() {
     const router = useRouter()
     const pathname = usePathname()
     const searchParams = useSearchParams()
+
+    const hasFilters = searchParams.toString().length > 0;
 
     const initialMin = Number(searchParams.get('price_min')) || 50
     const initialMax = Number(searchParams.get('price_max')) || 2000
@@ -59,7 +62,6 @@ export default function SidebarFilters() {
     }
 
 
-
     const { data: categories = [], error, isLoading } = useQuery<categoryType[]>({
         queryKey: ['filter-categories'],
         queryFn: getCategories
@@ -71,6 +73,13 @@ export default function SidebarFilters() {
 
     return (
         <aside className="w-full lg:max-w-[256px] flex flex-col bg-background text-foreground select-none">
+
+            {
+                hasFilters && <Button
+                    className="mb-2"
+                    onClick={() => router.push(pathname)}
+                    variant={"destructive"}>Clear All Filters</Button>
+            }
 
             {/* SECTION: CATEGORY */}
             <div className="flex flex-col gap-3">
