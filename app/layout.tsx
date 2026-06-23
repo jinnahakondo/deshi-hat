@@ -6,6 +6,7 @@ import Navbar from "@/components/navbar/Navbar";
 import { Toaster } from 'sonner';
 import AuthProvider from "@/providers/AuthProvider";
 import Footer from "@/components/footer/Footer";
+import ReactQueryProvider from "@/providers/ReactQeryProvider";
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-sans' });
 
@@ -36,16 +37,18 @@ export default function RootLayout({
     >
 
       <body className="">
-        <AuthProvider>
-          <header>
-            <Navbar />
-          </header>
-          <main className="px-3 min-h-full flex flex-col max-w-7xl mx-auto">
-            {children}
-            <Toaster />
-          </main>
-          <Footer />
-        </AuthProvider>
+        <ReactQueryProvider>
+          <AuthProvider>
+            <header>
+              <Navbar />
+            </header>
+            <main className="px-3 min-h-full flex flex-col max-w-7xl mx-auto">
+              {children}
+              <Toaster />
+            </main>
+            <Footer />
+          </AuthProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );

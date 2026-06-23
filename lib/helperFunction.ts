@@ -54,9 +54,6 @@ export const isValidId = (id: string) => {
     return mongoose.Types.ObjectId.isValid(id);
 };
 
-
-
-
 // generate unique slug 
 export const generateSlug = (name: string) => {
     const baseSlug = slugify(name, {
@@ -68,3 +65,6 @@ export const generateSlug = (name: string) => {
     const uniqueId = crypto.randomBytes(2).toString('hex');
     return `${baseSlug}-${uniqueId}`
 }
+
+
+
