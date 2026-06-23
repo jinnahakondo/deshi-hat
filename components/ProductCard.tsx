@@ -33,8 +33,8 @@ export default function ProductCard({ product }: { product: Product }) {
                     {/* 2. Dynamic Badge Logic */}
                     <div className="absolute top-3 left-3 z-10 flex flex-col gap-1">
 
-                        <Badge variant="default">
-                            Popular
+                        <Badge variant="default" className='capitalize'>
+                            {product.category?.name || "Popular"}
                         </Badge>
                     </div>
 

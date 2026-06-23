@@ -21,6 +21,8 @@ export default async function Home() {
         </CategoryWiseProducts>)
       }
 
+     
+
     </div>
   )
 }
