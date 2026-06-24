@@ -31,8 +31,8 @@ export default function SidebarFilters() {
 
     const hasFilters = searchParams.has("category") || searchParams.has("price_min")
 
-    const initialMin = Number(searchParams.get('price_min')) || 50
-    const initialMax = Number(searchParams.get('price_max')) || 2000
+    const initialMin = Number(searchParams.get('min_price')) || 50
+    const initialMax = Number(searchParams.get('max_price')) || 2000
 
     const [priceRange, setPriceRange] = useState<number[]>([initialMin, initialMax])
 
@@ -41,8 +41,8 @@ export default function SidebarFilters() {
     const updateUrlParams = () => {
         const params = new URLSearchParams(searchParams.toString())
 
-        params.set('price_min', priceRange[0].toString())
-        params.set('price_max', priceRange[1].toString())
+        params.set('min_price', priceRange[0].toString())
+        params.set('max_price', priceRange[1].toString())
 
         router.push(`${pathname}?${params.toString()}`)
     }
@@ -64,7 +64,7 @@ export default function SidebarFilters() {
     const clearFilter = () => {
         const params = new URLSearchParams(searchParams.toString());
 
-        ["category", "price_min", "price_max"].forEach((key) => params.delete(key));
+        ["category", "min_price", "max_price"].forEach((key) => params.delete(key));
 
         router.push(`${pathname}?${params.toString()}`);
     };
