@@ -33,14 +33,14 @@ export default async function ShopPage({
     if (!res.ok) {
         throw new Error("failed to fetch data")
     }
-    const { data: products } = await res.json()
+    const { data: products, total } = await res.json()
 
     return (
         <div>
             {/* <ShopPageHeader /> */}
             <main className='grid grid-cols-1 lg:grid-cols-[256px_1fr] gap-10 py-16'>
                 <SidebarFilters />
-                <Shop products={products} />
+                <Shop products={products} total={total} />
             </main>
         </div>
     )

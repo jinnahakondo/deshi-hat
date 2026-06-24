@@ -7,6 +7,7 @@ type SuccessResponse<T = unknown> = {
     data?: T;
     message: string;
     status?: number;
+    total?: number;
 };
 
 type ErrorResponse = {
@@ -20,12 +21,15 @@ export const response = {
         data,
         message = "Success",
         status = 200,
+        total
     }: SuccessResponse<T>) {
         return NextResponse.json(
             {
                 success: true,
                 message,
                 ...(data !== undefined && { data }),
+                total: (total && total),
+
             },
             { status }
         );

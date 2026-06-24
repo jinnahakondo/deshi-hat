@@ -58,6 +58,8 @@ export async function GET(req: NextRequest) {
             query.category = { $in: categoryIds };
         }
 
+        const totalProducts = await Product.countDocuments(query)
+
         const products = await Product.find(query)
             .populate('category')
             .sort(sortOption)
@@ -69,7 +71,8 @@ export async function GET(req: NextRequest) {
 
         return response.success({
             data: products,
-            message: products.length === 0 ? "Product not found" : "Product fetched successfully"
+            message: products.length === 0 ? "Product not found" : "Product fetched successfully",
+            total: totalProducts
         })
 
     } catch (error: any) {
