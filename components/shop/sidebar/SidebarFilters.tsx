@@ -29,7 +29,7 @@ export default function SidebarFilters() {
     const pathname = usePathname()
     const searchParams = useSearchParams()
 
-    const hasFilters = searchParams.toString().length > 0;
+    const hasFilters = searchParams.has("category") || searchParams.has("price_min")
 
     const initialMin = Number(searchParams.get('price_min')) || 50
     const initialMax = Number(searchParams.get('price_max')) || 2000
@@ -61,6 +61,13 @@ export default function SidebarFilters() {
         router.push(`${pathname}?${params.toString()}`)
     }
 
+    const clearFilter = () => {
+        const params = new URLSearchParams(searchParams.toString());
+
+        ["category", "price_min", "price_max"].forEach((key) => params.delete(key));
+
+        router.push(`${pathname}?${params.toString()}`);
+    };
 
     const { data: categories = [], error, isLoading } = useQuery<categoryType[]>({
         queryKey: ['filter-categories'],
@@ -79,7 +86,7 @@ export default function SidebarFilters() {
                     className="mb-2"
                     onClick={() => {
                         setPriceRange([50, 2000])
-                        router.push(pathname)
+                        clearFilter()
                     }}
                     variant={"destructive"}>Clear All Filters</Button>
             }

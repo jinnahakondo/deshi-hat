@@ -13,7 +13,7 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation"
 export function SortProduct() {
     const router = useRouter()
     const searchParams = useSearchParams()
-    const pathName =usePathname()
+    const pathName = usePathname()
 
     const onSort = (value: string) => {
         const params = new URLSearchParams(searchParams.toString())
@@ -22,6 +22,7 @@ export function SortProduct() {
     }
 
     const sortOptions = [
+        { label: "Default Sorting", value: "all" },
         { label: "Rating", value: "rating" },
         { label: "Price high to low", value: "price_high_to_low" },
         { label: "Price low to high", value: "price_low_to_high" },
@@ -35,7 +36,7 @@ export function SortProduct() {
             </SelectTrigger>
             <SelectContent position="popper">
                 <SelectGroup>
-                    <SelectLabel>Default Sorting</SelectLabel>
+
                     {
                         sortOptions.map(s => <SelectItem
                             key={s.value}
