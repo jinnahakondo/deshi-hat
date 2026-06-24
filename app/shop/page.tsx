@@ -1,4 +1,5 @@
 
+import DynamicBreadcrumb, { BreadcrumbItemProps } from '@/components/shared/DynamicBreadcrumb'
 import Shop from '@/components/shop/ShopProducts'
 import SidebarFilters from '@/components/shop/sidebar/SidebarFilters'
 import React from 'react'
@@ -35,15 +36,27 @@ export default async function ShopPage({
     }
     const { data: products, total } = await res.json()
 
+    const breadcrumbItems: BreadcrumbItemProps[] = [
+        { label: "Home", href: "/" },
+        { label: "Shop" },
+    ]
+
+    const limit = 12
+    const page = Math.ceil(total / limit)
+
+
     return (
         <div>
-            {/* <ShopPageHeader /> */}
+            <div className='sticky top-22'>
+                <DynamicBreadcrumb items={breadcrumbItems} />
+            </div>
             <main className='grid grid-cols-1 lg:grid-cols-[256px_1fr] gap-10 py-16 items-start'>
                 <div className='sticky top-36 h-fit'>
                     <SidebarFilters />
                 </div>
                 <Shop products={products} total={total} />
             </main>
+            <div className='flex items-center justify-center mb-8'>  hello</div>
         </div>
     )
 }

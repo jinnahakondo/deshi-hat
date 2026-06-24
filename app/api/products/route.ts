@@ -17,8 +17,9 @@ export async function GET(req: NextRequest) {
         const maxPrice = searchParams.get("max_price")
         const minPrice = searchParams.get("min_price")
         const sort = searchParams.get("sort_by")
-        const limit = Number(searchParams.get("limit")) || 20
-        const skip = Number(searchParams.get("skip")) || 0
+        const limit = Number(searchParams.get("limit")) || 12
+        const page = Number(searchParams.get("page")) || 1
+        const skip = (page - 1) * limit
 
 
         const sortOption: Record<string, 1 | -1> = {};
