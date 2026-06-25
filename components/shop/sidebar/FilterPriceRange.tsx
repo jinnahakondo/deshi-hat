@@ -1,5 +1,5 @@
 import { Slider } from "@/components/ui/slider"
-
+import { FaBangladeshiTakaSign } from "react-icons/fa6";
 
 interface Props {
     priceRange: number[]
@@ -20,14 +20,14 @@ export default function FilterPriceRange({
             className="pt-2 cursor-pointer">
             <Slider
                 value={priceRange}
+                min={0}
                 max={2000}
-                min={50}
                 step={10}
                 onValueChange={setPriceRange}
             />
             <div className="flex justify-between items-center text-sm font-medium text-foreground pt-1">
-                <span>${priceRange[0]}</span>
-                <span>${priceRange[1]}</span>
+                <span className="flex items-center"><FaBangladeshiTakaSign size={14} />{priceRange[0]}</span>
+                <span className="flex items-center"><FaBangladeshiTakaSign size={14} />{priceRange[1]}</span>
             </div>
         </div>
     )

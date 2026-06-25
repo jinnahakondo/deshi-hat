@@ -13,14 +13,8 @@ import { Button } from "../../ui/button"
 
 
 const getCategories = async (): Promise<categoryType[]> => {
-    try {
-        const res = await axiosInstance.get('/api/categories')
-        return res.data.data
-    } catch (error: any) {
-
-        const errorMsg = error.response?.data?.message || error.message
-        throw new Error(errorMsg)
-    }
+    const res = await axiosInstance.get('/api/categories')
+    return res.data.data
 }
 
 export default function SidebarFilters() {
@@ -29,26 +23,35 @@ export default function SidebarFilters() {
     const pathname = usePathname()
     const searchParams = useSearchParams()
 
-    const hasFilters = searchParams.has("category") || searchParams.has("price_min")
+    const hasFilters = searchParams.has("category") || searchParams.has("min_price")
 
-    const initialMin = Number(searchParams.get('min_price')) || 50
+    const initialMin = Number(searchParams.get('min_price')) || 0
     const initialMax = Number(searchParams.get('max_price')) || 2000
 
     const [priceRange, setPriceRange] = useState<number[]>([initialMin, initialMax])
 
+
     const currentCategories = searchParams.getAll("category")
+
+    const navigateWithParams = (params: URLSearchParams) => {
+        params.delete("page")
+        router.push(`${pathname}?${params.toString()}`)
+    }
 
     const updateUrlParams = () => {
         const params = new URLSearchParams(searchParams.toString())
 
+        params.delete("page")
         params.set('min_price', priceRange[0].toString())
         params.set('max_price', priceRange[1].toString())
 
-        router.push(`${pathname}?${params.toString()}`)
+        navigateWithParams(params)
     }
 
     const handleFilterChange = (category: string) => {
         const params = new URLSearchParams(searchParams.toString())
+        params.delete("page")
+
         if (currentCategories.includes((category))) {
             params.delete("category")
             currentCategories
@@ -58,7 +61,7 @@ export default function SidebarFilters() {
         } else {
             params.append("category", category)
         }
-        router.push(`${pathname}?${params.toString()}`)
+        navigateWithParams(params)
     }
 
     const clearFilter = () => {
@@ -66,7 +69,7 @@ export default function SidebarFilters() {
 
         ["category", "min_price", "max_price"].forEach((key) => params.delete(key));
 
-        router.push(`${pathname}?${params.toString()}`);
+        navigateWithParams(params)
     };
 
     const { data: categories = [], error, isLoading } = useQuery<categoryType[]>({
@@ -85,7 +88,7 @@ export default function SidebarFilters() {
                 hasFilters && <Button
                     className="mb-2"
                     onClick={() => {
-                        setPriceRange([50, 2000])
+                        setPriceRange([0, 2000])
                         clearFilter()
                     }}
                     variant={"destructive"}>Clear All Filters</Button>
