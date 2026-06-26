@@ -4,23 +4,18 @@ import {
     Drawer,
     DrawerContent,
     DrawerTrigger,
-    DrawerClose,
     DrawerTitle,
     DrawerHeader,
-    DrawerFooter,
 } from "@/components/ui/drawer"
-import { Heart, Menu, X } from 'lucide-react'
+import { Heart, Menu, } from 'lucide-react'
 import { links } from '../navLinks';
 import NavLink from '../NavLink';
 import SearchBar from '../SearchBar';
-import LogOutButton from '@/components/buttons/LogOutButton';
-import { getServerSession } from 'next-auth';
 
 
 
-export default async function Sidebar() {
+export default function Sidebar({ user }: { user: any }) {
 
-    const session = await getServerSession()
 
     const mobileLinks = [
         {
@@ -32,7 +27,7 @@ export default async function Sidebar() {
     ]
 
     return (
-        <Drawer direction='left'>
+        <Drawer direction='left' >
             <DrawerTrigger>
                 <span
                     className='md:hidden hover:text-primary transition-colors'
@@ -74,18 +69,6 @@ export default async function Sidebar() {
                     </nav>
 
                 </div>
-
-                <DrawerFooter className='flex items-center justify-center'>
-                    {/* log out / log in button  */}
-                    {
-                        session ?
-                            <LogOutButton />
-                            :
-                            <NavLink className='text-primary' href='/login'>
-                                Login
-                            </NavLink>
-                    }
-                </DrawerFooter>
 
             </DrawerContent>
         </Drawer>

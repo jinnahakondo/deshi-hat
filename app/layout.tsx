@@ -39,7 +39,7 @@ export default function RootLayout({
       <body className="">
         <ReactQueryProvider>
           <AuthProvider>
-            <header className="sticky top-0 z-9999">
+            <header className="sticky top-0 z-40">
               <Navbar />
             </header>
             <main className="px-3 min-h-full flex flex-col max-w-7xl mx-auto">

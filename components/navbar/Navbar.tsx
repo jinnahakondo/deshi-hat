@@ -1,3 +1,4 @@
+"use client"
 import React from 'react'
 import NavLink from './NavLink'
 import { Heart, User } from 'lucide-react'
@@ -6,10 +7,14 @@ import Cart from '../cart/Cart'
 import Link from 'next/link'
 import Sidebar from './mobile/Sidebar'
 import { links } from './navLinks'
+import { useSession } from 'next-auth/react'
+import { DropdownMenuAvatar } from './DropdownMenuAvatar'
+
 
 
 export default function Navbar() {
 
+    const { data: session, status } = useSession()
 
     return (
         <div className='w-full h-20 bg-background border-b border-border '>
@@ -19,9 +24,7 @@ export default function Navbar() {
                 <div className='flex items-center gap-10'>
                     <div className='flex items-center justify-center '>
                         {/* Mobile Menu Button */}
-
-                        <Sidebar />
-
+                        <Sidebar user={session?.user} />
                         {/* Logo */}
                         <h2 className='text-lg md:text-2xl font-bold text-foreground tracking-tight ml-2 md:ml-0'>DeshiHat</h2>
                     </div>
@@ -62,15 +65,19 @@ export default function Navbar() {
                             >
                                 <Heart size={20} className=' stroke-[1.5]' />
                             </Link>
-
-                            {/* Profile Button */}
-                            <Link href={'/login'}
-                                className='p-2 hover:text-primary transition-colors rounded-full hover:bg-muted/50'
-                                aria-label="View Profile"
-                            >
-                                <User className='h-5 w-5 stroke-[1.5]' />
-                            </Link>
                         </div>
+                        {/* Profile Button */}
+                        {
+                            status === "authenticated" ?
+                                <DropdownMenuAvatar user={session.user} />
+                                :
+                                <Link href={'/login'}
+                                    className='p-2 hover:text-primary transition-colors rounded-full hover:bg-muted/50'
+                                    aria-label="View Profile"
+                                >
+                                    <User className='h-5 w-5 stroke-[1.5]' />
+                                </Link>
+                        }
                     </div>
 
                 </div>

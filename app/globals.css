@@ -148,3 +148,16 @@
 .sidebar-active {
   @apply bg-primary/10 text-primary
 }
+
+
+.swiper-pagination-bullet-active {
+  @apply bg-primary
+}
+
+
+
+
+/* swiper-pagination-bullet: for styling pagination bullets
+swiper-pagination-bullet-active: for styling the active pagination bullet
+.swiper-button-next: for styling the next (right) navigation arrow
+.swiper-button-prev: for styling the previous (left) navigation arrow */

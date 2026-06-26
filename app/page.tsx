@@ -1,12 +1,13 @@
 
-import CategorySection from "@/components/home/CategorySection";
-import { Hero } from "@/components/home/Hero";
+
 import PopularSection from "@/components/home/PopularSection";
 import { cateWiseProducts } from "@/data/categoryWiseProduct";
 import CategoryWiseProducts from "@/components/home/category/CategoryWiseProducts";
 import { Suspense } from "react";
 import ProductCardSkeleton from "@/components/skeleton/ProductCardSekleton";
 import { Skeleton } from "@/components/ui/skeleton";
+import { Hero } from "@/components/home/Hero";
+import CategorySection from "@/components/home/CategorySection";
 
 
 export default async function Home() {
