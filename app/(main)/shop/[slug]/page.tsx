@@ -1,12 +1,13 @@
 import DynamicBreadcrumb from '@/components/shared/DynamicBreadcrumb'
 import ImageGallery from '@/components/shop/ImageGallery'
+import ProductDescriptionReviewsTab from '@/components/shop/ProductDescription&ReviewsTab'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { productDetailsBreadcrumbs } from '@/data/breadcrumbData'
 import { Product } from '@/types/Product'
 import { Award, Clock, ShieldCheck, ShoppingCart, Star } from 'lucide-react'
-import React from 'react'
+import React, { Fragment } from 'react'
 
 export default async function ProductDetails({ params }:
     { params: Promise<{ slug: string }> }) {
@@ -32,7 +33,7 @@ export default async function ProductDetails({ params }:
         <div className='py-16 '>
             <DynamicBreadcrumb items={productDetailsBreadcrumbs} />
 
-            <div className='grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-16'>
+            <div className='grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-16 '>
                 {/* Images*/}
                 <ImageGallery images={product.images} title={product.title} />
 
@@ -132,6 +133,9 @@ export default async function ProductDetails({ params }:
                     </div>
 
                 </div>
+            </div>
+            <div className="py-10">
+                <ProductDescriptionReviewsTab description={product.description} />
             </div>
         </div>
     )
