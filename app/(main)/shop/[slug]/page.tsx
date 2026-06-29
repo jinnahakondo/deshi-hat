@@ -5,8 +5,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { productDetailsBreadcrumbs } from '@/data/breadcrumbData'
 import { Product } from '@/types/Product'
-import { ArrowRightLeft, Award, Clock, ShieldCheck, ShoppingCart, Star } from 'lucide-react'
-import Image from 'next/image'
+import { Award, Clock, ShieldCheck, ShoppingCart, Star } from 'lucide-react'
 import React from 'react'
 
 export default async function ProductDetails({ params }:
@@ -25,8 +24,8 @@ export default async function ProductDetails({ params }:
 
     console.log(product);
 
-    const savings = product.discountPrice && (product.price > product.discountPrice)
-        ? Math.round((product.price - product.discountPrice / product.price) * 100)
+    const savings = product.discountPrice && product.price > product.discountPrice
+        ? Math.round(((product.price - product.discountPrice) / product.price) * 100)
         : 0
 
     return (
@@ -114,29 +113,24 @@ export default async function ProductDetails({ params }:
                             </CardContent>
                         </Card>
 
-                        <div className="pt-2">
-                            <p className="text-muted-foreground leading-relaxed">
-                                {product.description}
-                            </p>
+                        <div className="space-y-3 pt-6 border-t">
+                            <div className="flex flex-col sm:flex-row gap-3">
+                                <Button size="lg" className="flex-1 gap-2 shadow-sm font-medium">
+                                    <ShoppingCart className="h-4 w-4" /> Add to Cart
+                                </Button>
+                                <Button size="lg" variant="secondary" className="flex-1 font-medium">
+                                    Buy Now
+                                </Button>
+                            </div>
+
+                            <div className="text-center">
+                                <span className={`text-xs ${product.stock > 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-destructive'}`}>
+                                    {product.stock > 0 ? `In Stock (${product.stock} units available)` : 'Out of Stock'}
+                                </span>
+                            </div>
                         </div>
                     </div>
 
-                    <div className="space-y-3 pt-6 border-t">
-                        <div className="flex flex-col sm:flex-row gap-3">
-                            <Button size="lg" className="flex-1 gap-2 shadow-sm font-medium">
-                                <ShoppingCart className="h-4 w-4" /> Add to Cart
-                            </Button>
-                            <Button size="lg" variant="secondary" className="flex-1 font-medium">
-                                Buy Now
-                            </Button>
-                        </div>
-
-                        <div className="text-center">
-                            <span className={`text-xs ${product.stock > 0 ? 'text-emerald-600 dark:text-emerald-400' : 'text-destructive'}`}>
-                                {product.stock > 0 ? `In Stock (${product.stock} units available)` : 'Out of Stock'}
-                            </span>
-                        </div>
-                    </div>
                 </div>
             </div>
         </div>
