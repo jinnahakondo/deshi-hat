@@ -115,6 +115,14 @@ export default async function ProductDetails({ params }:
                         </Card>
 
                         <div className="space-y-3 pt-6 border-t">
+                            <div className='flex items-center gap-4'>
+                                <p>Quantity</p>
+                                <div className='flex items-center gap-2'>
+                                    <Button variant={"secondary"} className='text-2xl'>-</Button>
+                                    <span>1</span>
+                                    <Button variant={"secondary"} className='text-2xl'>+</Button>
+                                </div>
+                            </div>
                             <div className="flex flex-col sm:flex-row gap-3">
                                 <Button size="lg" className="flex-1 gap-2 shadow-sm font-medium">
                                     <ShoppingCart className="h-4 w-4" /> Add to Cart
