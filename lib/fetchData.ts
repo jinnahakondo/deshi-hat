@@ -68,3 +68,26 @@ export const getAllCategories = async () => {
         throw new Error("Failed to get categories");
     }
 }
+
+export const getCategoryWiseProduct = async (categorySlug: string) => {
+    try {
+        const url = `${process.env.BASE_URL}/api/products?category=${categorySlug}&limit=4`
+
+        const res = await fetch(url)
+
+        if (!res.ok) {
+            throw new Error("failed to fetch category wise product")
+        }
+
+        const { data }: { data: ProductType[] } = await res.json()
+
+        return data
+
+    } catch (error) {
+        if (process.env.NODE_ENV === "development") {
+            console.error(error);
+        }
+
+        throw new Error("Failed to get category wise product");
+    }
+}

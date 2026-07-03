@@ -1,11 +1,9 @@
 import ProductCard from '@/components/ProductCard';
 import Title from '@/components/shared/SectionTitle';
-import { CategoryType, ProductType } from '@/types/types';
+import { getCategoryWiseProduct } from '@/lib/fetchData';
 
 import React, { ReactNode } from 'react'
-interface ApiResponse {
-    data: ProductType<CategoryType>[];
-}
+
 
 export default async function CategoryWiseProducts(
     {
@@ -14,16 +12,7 @@ export default async function CategoryWiseProducts(
             children: ReactNode,
             categorySlug: string
         }) {
-
-    const res = await fetch(`${process.env.BASE_URL}/api/products?category=${categorySlug}&limit=4`,
-        { next: { tags: ['category-products'] } }
-    )
-
-    if (!res.ok) {
-        throw new Error("failed to fetch data")
-    }
-
-    const { data: categoryWiseProducts }: ApiResponse = await res.json()
+    const categoryWiseProducts = await getCategoryWiseProduct(categorySlug)
 
     if (categoryWiseProducts.length === 0) {
         return <div className='grid place-items-center'>No products found!</div>
