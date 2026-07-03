@@ -3,8 +3,9 @@ import { Carousel, CarouselContent, CarouselItem } from '../ui/carousel'
 import { Card, CardContent } from '../ui/card'
 import Image from 'next/image'
 import Title from '../shared/SectionTitle'
-import { categoryType } from '@/types/category'
+
 import Link from 'next/link'
+import { CategoryType } from '@/types/types'
 
 export default async function CategorySection() {
     const res = await fetch(`${process.env.BASE_URL}/api/categories`)
@@ -18,7 +19,7 @@ export default async function CategorySection() {
             <Title>Shop by Category</Title>
             <Carousel className="w-full  ">
                 <CarouselContent className="-ml-4 lg:-ml-10">
-                    {categories.map((category: categoryType) => (
+                    {categories.map((category: CategoryType) => (
                         <CarouselItem key={category._id} className="basis-1/3 pl-4 lg:pl-10 sm:basis-1/4 md:basis-1/5 lg:basis-1/7 flex flex-col items-center justify-center gap-4 group">
 
                             <Link href={`/shop?category=${category.slug}`}>

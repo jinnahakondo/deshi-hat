@@ -1,15 +1,15 @@
 import React from 'react'
-import { ProductType } from '@/types/Product';
+import { CategoryType, ProductType } from '@/types/types';
 import Title from '../shared/SectionTitle';
 import ProductCard from '../ProductCard';
-import { categoryType } from '@/types/category';
+
 
 interface ApiResponse {
-    data: ProductType[];
+    data: ProductType<CategoryType>[];
 }
 
 interface Props {
-    categoryId: string | categoryType
+    categoryId: string | CategoryType
 }
 
 

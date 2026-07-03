@@ -1,10 +1,11 @@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Field, FieldLabel } from "@/components/ui/field";
-import { categoryType } from "@/types/category";
+import { CategoryType } from "@/types/types";
 
 
 
-interface Props extends categoryType {
+
+interface Props extends CategoryType {
     isChecked: boolean
     onFilterChange: (slug: string) => void;
 }

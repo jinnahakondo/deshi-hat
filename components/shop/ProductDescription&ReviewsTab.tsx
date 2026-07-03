@@ -1,7 +1,7 @@
 import React from 'react'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs'
 
-export default function ProductDescriptionReviewsTab({ description }: { description: string }) {
+export default function ProductDescriptionReviewsTab({ description, productId }: { description: string, productId: string }) {
     return (
         <Tabs defaultValue='description'>
             <TabsList variant={"line"}>

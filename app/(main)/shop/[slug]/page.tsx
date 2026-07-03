@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { productDetailsBreadcrumbs } from '@/data/breadcrumbData'
-import {  ProductType } from '@/types/Product'
+import { ProductType } from '@/types/types'
 import { Award, Clock, ShieldCheck, ShoppingCart, Star } from 'lucide-react'
 import React, { Fragment } from 'react'
 
@@ -144,7 +144,10 @@ export default async function ProductDetails({ params }:
             </div>
             {/* product description & customer reviews  */}
             <div className="py-10">
-                <ProductDescriptionReviewsTab description={product.description} />
+                <ProductDescriptionReviewsTab
+                    description={product.description}
+                    productId={product._id}
+                />
             </div>
             {/* related products  */}
             <RelatedProducts categoryId={product.category} />

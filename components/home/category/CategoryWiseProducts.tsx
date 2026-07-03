@@ -1,9 +1,10 @@
 import ProductCard from '@/components/ProductCard';
 import Title from '@/components/shared/SectionTitle';
-import { ProductType } from '@/types/Product'
+import { CategoryType, ProductType } from '@/types/types';
+
 import React, { ReactNode } from 'react'
 interface ApiResponse {
-    data: ProductType[];
+    data: ProductType<CategoryType>[];
 }
 
 export default async function CategoryWiseProducts(

@@ -3,16 +3,16 @@
 import axiosInstance from "@/lib/axiosInstance"
 import { useQuery } from "@tanstack/react-query"
 import FilterCategory from "./FilterCategory"
-import { categoryType } from "@/types/category"
 import SidebarFiltersSkeleton from "../../skeleton/SidebarFilterSkeleton"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { FieldGroup } from "../../ui/field"
 import FilterPriceRange from "./FilterPriceRange"
 import { useState } from "react"
 import { Button } from "../../ui/button"
+import { CategoryType } from "@/types/types"
 
 
-const getCategories = async (): Promise<categoryType[]> => {
+const getCategories = async (): Promise<CategoryType[]> => {
     const res = await axiosInstance.get('/api/categories')
     return res.data.data
 }
@@ -72,7 +72,7 @@ export default function SidebarFilters() {
         navigateWithParams(params)
     };
 
-    const { data: categories = [], error, isLoading } = useQuery<categoryType[]>({
+    const { data: categories = [], error, isLoading } = useQuery<CategoryType[]>({
         queryKey: ['filter-categories'],
         queryFn: getCategories
     })

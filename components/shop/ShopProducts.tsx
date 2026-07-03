@@ -1,7 +1,7 @@
 import React from 'react'
 import ShopHeader from './ShopHeader'
 import ProductCard from '../ProductCard'
-import { ProductType } from '@/types/Product'
+import { CategoryType, ProductType } from '@/types/types'
 import Pagination from './Pagination'
 
 interface Props {
@@ -9,6 +9,7 @@ interface Props {
     [key: string]: string | string[] | undefined;
   }
 }
+
 
 const limit = 9
 
@@ -43,7 +44,7 @@ export default async function Shop({ params }: Props) {
   if (!res.ok) {
     throw new Error("failed to fetch data")
   }
-  const { data: products, total } = await res.json()
+  const { data: products, total }: { data: ProductType<CategoryType>[], total: number } = await res.json()
 
 
   const totalPage = Math.ceil(total / limit)
@@ -53,7 +54,7 @@ export default async function Shop({ params }: Props) {
       <ShopHeader totalProducts={String(total)} />
       <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6'>
         {
-          products.map((product: ProductType) => <ProductCard key={product._id} product={product} />)
+          products.map((product) => <ProductCard key={product._id} product={product} />)
         }
       </div>
       <div className='flex items-center justify-center mt-8'>
