@@ -1,7 +1,6 @@
 import React from 'react'
 import ShopHeader from './ShopHeader'
 import ProductCard from '../ProductCard'
-import { CategoryType, ProductType } from '@/types/types'
 import Pagination from './Pagination'
 import { getAllProducts } from '@/lib/fetchData'
 

@@ -1,3 +1,6 @@
+import AddToCartButton from '@/components/buttons/AddToCartButton'
+import BuyNowButton from '@/components/buttons/BuyNowButton'
+import QuantityButton from '@/components/buttons/QuantityButton'
 import DynamicBreadcrumb from '@/components/shared/DynamicBreadcrumb'
 import ImageGallery from '@/components/shop/ImageGallery'
 import ProductDescriptionReviewsTab from '@/components/shop/ProductDescription&ReviewsTab'
@@ -7,7 +10,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { productDetailsBreadcrumbs } from '@/data/breadcrumbData'
 import { getSingleProduct } from '@/lib/fetchData'
-import { Award, Clock, ShieldCheck, ShoppingCart, Star } from 'lucide-react'
+import { Award, Clock, ShieldCheck, Star } from 'lucide-react'
 import React, { Fragment } from 'react'
 
 export default async function ProductDetails({ params }:
@@ -108,19 +111,11 @@ export default async function ProductDetails({ params }:
                         <div className="space-y-3 pt-6 border-t">
                             <div className='flex items-center gap-4'>
                                 <p>Quantity</p>
-                                <div className='flex items-center gap-2'>
-                                    <Button variant={"secondary"} className='text-2xl'>-</Button>
-                                    <span>1</span>
-                                    <Button variant={"secondary"} className='text-2xl'>+</Button>
-                                </div>
+                               <QuantityButton/>
                             </div>
                             <div className="flex flex-col sm:flex-row gap-3">
-                                <Button size="lg" className="flex-1 gap-2 shadow-sm font-medium">
-                                    <ShoppingCart className="h-4 w-4" /> Add to Cart
-                                </Button>
-                                <Button size="lg" variant="secondary" className="flex-1 font-medium">
-                                    Buy Now
-                                </Button>
+                                <AddToCartButton />
+                                <BuyNowButton />
                             </div>
 
                             <div className="text-center">
