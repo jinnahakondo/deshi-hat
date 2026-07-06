@@ -1,8 +1,6 @@
-import { verifyAuth } from "@/lib/auth/verifyAuth"
 import { connectDb } from "@/lib/db/db"
 import { isValidId, response } from "@/lib/helperFunction"
 import Cart from "@/schemas/cart.schema"
-import Review from "@/schemas/review.schema"
 import { NextRequest } from "next/server"
 
 interface IParams {

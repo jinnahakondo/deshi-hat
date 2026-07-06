@@ -30,7 +30,7 @@ export default function ShippingBillingCard({
 }: ShippingBillingCardProps) {
     return (
         <Card className="w-full bg-card text-card-foreground border border-border shadow-sm">
-            <CardContent className="p-6 md:p-8 space-y-6">
+            <CardContent className=" space-y-6">
                 {/* Header Section */}
                 <div className="flex items-center justify-between">
                     <div className="flex items-center gap-3">

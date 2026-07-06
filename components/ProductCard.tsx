@@ -7,6 +7,7 @@ import { FaBangladeshiTakaSign } from 'react-icons/fa6'
 import { Button } from './ui/button'
 import { FaRegStar, FaStar, FaStarHalfAlt } from 'react-icons/fa'
 import { CategoryType, ProductType } from '@/types/types'
+import AddToCartButton from './buttons/AddToCartButton'
 
 
 export default function ProductCard({ product }: { product: ProductType<CategoryType> }) {
@@ -79,7 +80,7 @@ export default function ProductCard({ product }: { product: ProductType<Category
                             </p>
                         )}
                     </div>
-                    <Button>Add to Cart</Button>
+                    <AddToCartButton productId={product._id}/>
                 </div>
             </CardFooter>
         </Card>

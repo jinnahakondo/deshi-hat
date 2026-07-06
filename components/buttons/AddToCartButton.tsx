@@ -2,11 +2,62 @@
 import React from 'react'
 import { Button } from '../ui/button'
 import { ShoppingCart } from 'lucide-react'
+import { useMutation } from '@tanstack/react-query'
+import { useSession } from 'next-auth/react'
+import axiosInstance from '@/lib/axiosInstance'
+import { useRouter } from 'next/navigation'
 
-export default function AddToCartButton() {
+interface AddToCartPayload {
+    userId: string;
+    productId: string;
+}
+
+interface CartResponse {
+    success: boolean;
+    message: string;
+}
+
+export default function AddToCartButton({ productId }: { productId: string }) {
+
+    const { data, status } = useSession()
+
+    const router = useRouter()
+
+    const { mutateAsync: addToCart, isPending } = useMutation<
+        CartResponse,
+        Error,
+        AddToCartPayload
+    >({
+        mutationKey: ["add_product_to_cart"],
+        mutationFn: async (payload) => {
+            const res = await axiosInstance.post<CartResponse>("/api/cart", payload);
+            return res.data;
+        },
+        onSuccess: (data) => {
+            console.log("added product to cart", data);
+        },
+        onError: (error) => {
+            console.log(error);
+        }
+    });
+
+
+    const payload = { user: String(data?.user.id), product: productId }
+
+    console.log(payload);
+
     return (
-        <Button size="lg" className="flex-1 gap-2 shadow-sm font-medium">
-            <ShoppingCart className="h-4 w-4" /> Add to Cart
+        <Button
+            onClick={() => {
+                if (status === "loading") return
+                if (status === "unauthenticated") {
+                    return router.push('/login')
+                }
+                addToCart(payload)
+            }}
+            disabled={isPending}
+            size="lg" className="cursor-pointer">
+            <ShoppingCart className="h-4 w-4" />
         </Button>
     )
 }

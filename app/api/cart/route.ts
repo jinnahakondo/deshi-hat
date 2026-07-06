@@ -1,46 +1,23 @@
+import { verifyAuth } from "@/lib/auth/verifyAuth";
 import { connectDb } from "@/lib/db/db"
-import { response } from "@/lib/helperFunction"
+import { response } from "@/lib/helperFunction";
 import Cart from "@/schemas/cart.schema"
-import { NextRequest } from "next/server"
 
-export async function GET() {
-    try {
-        await connectDb()
 
-        const result = await Cart.find().lean().exec()
+export async function GET(req: Request) {
 
-        return response.success({
-            data: result,
-            message: "Cart fetched successfully"
-        })
+    await connectDb();
 
-    } catch (error: any) {
-        return response.error(
-            {
-                message: "Failed to fetch Cart",
-                error: error.message,
-            }
-        )
-    }
+    const { user } = await verifyAuth()
+
+    const cart = await Cart.findOne({
+        user: user.id,
+    })
+        .populate("items.product", "-_id title images")
+
+    return Response.json({
+        success: true,
+        data: cart.items,
+    });
 }
 
-
-export async function POST(req: NextRequest) {
-    try {
-        await connectDb()
-
-        const payload = await req.json()
-        const result = await Cart.create(payload)
-
-        return response.success({
-            message: "Cart created successfully",
-            data: result
-        })
-
-    } catch (error: any) {
-        return response.error({
-            message: "Failed to create Cart",
-            error: error.message
-        })
-    }
-}

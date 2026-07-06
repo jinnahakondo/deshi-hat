@@ -6,10 +6,12 @@ import ImageGallery from '@/components/shop/ImageGallery'
 import ProductDescriptionReviewsTab from '@/components/shop/ProductDescription&ReviewsTab'
 import RelatedProducts from '@/components/shop/RelatedProducts'
 import { Badge } from '@/components/ui/badge'
+import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { productDetailsBreadcrumbs } from '@/data/breadcrumbData'
 import { getSingleProduct } from '@/lib/fetchData'
 import { Award, Clock, ShieldCheck, Star } from 'lucide-react'
+import Link from 'next/link'
 import React, { Fragment } from 'react'
 
 export default async function ProductDetails({ params }:
@@ -110,11 +112,15 @@ export default async function ProductDetails({ params }:
                         <div className="space-y-3 pt-6 border-t">
                             <div className='flex items-center gap-4'>
                                 <p>Quantity</p>
-                               <QuantityButton/>
+                                <QuantityButton />
                             </div>
                             <div className="flex flex-col sm:flex-row gap-3">
                                 <AddToCartButton />
-                                <BuyNowButton />
+
+                                <Button size="lg" variant="secondary" className="flex-1 font-medium cursor-pointer">
+                                    <Link href={`/checkout`}>Buy Now</Link>
+                                </Button>
+
                             </div>
 
                             <div className="text-center">

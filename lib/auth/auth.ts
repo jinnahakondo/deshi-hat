@@ -91,10 +91,12 @@ export const authOptions: NextAuthOptions = {
                     });
 
                     if (dbUser) {
+                        token.userId = dbUser._id
                         token.role = dbUser.role;
                         token.email = dbUser.email;
                     }
                 } else {
+                    token.userId = user.id;
                     token.email = user.email;
                     token.role = user.role;
                 }
@@ -106,6 +108,7 @@ export const authOptions: NextAuthOptions = {
             if (session.user) {
                 session.user.role = token.role as string;
                 session.user.email = token.email as string;
+                session.user.id = token.userId as string
             }
 
             return session
