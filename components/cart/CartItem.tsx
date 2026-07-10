@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button";
 import { CartItemType, ProductType } from "@/types/types";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { deleteCartItem } from "@/lib/fetchData";
+import { CartItemSkeleton } from "../skeleton/CartItemSkeleton";
 
 interface CartItemProps {
     item: CartItemType<ProductType>;
@@ -16,7 +17,7 @@ export function CartItem({ item }: CartItemProps) {
 
     const queryClient = useQueryClient()
 
-    const { mutate: deleteItem, isPending,  } = useMutation({
+    const { mutate: deleteItem, isPending, isSuccess } = useMutation({
         mutationKey: ['delete-cart-item', item._id],
         mutationFn: deleteCartItem,
         onSuccess: () => {
@@ -25,8 +26,10 @@ export function CartItem({ item }: CartItemProps) {
     })
 
     if (isPending) {
-        return <div className="flex items-center justify-center">loading...</div>
+        return <CartItemSkeleton />
     }
+
+    if (isSuccess) return null
 
     return (
         <div className="flex items-center gap-4 rounded-xl border bg-card p-2 shadow-sm max-w-md w-full relative group">
