@@ -17,12 +17,7 @@ export default function OrderReviewCard() {
     };
 
     const cartItems = useCartStore(state => state.cartItems)
-    const checkoutItem = useCartStore(state => state.checkOutItem)
     const updateQuantity = useCartStore(state => state.updateQuantity)
-
-
-
-    const cart: CartItem[] = checkoutItem ? [checkoutItem] : cartItems
 
     return (
         <Card className="w-full bg-card text-card-foreground border border-border shadow-sm">
@@ -35,7 +30,7 @@ export default function OrderReviewCard() {
 
                 {/* Product Items List */}
                 <div className="space-y-4">
-                    {cart.map((item) => (
+                    {cartItems.map((item) => (
                         <div
                             key={item._id}
                             className={`flex items-center justify-between rounded-xl transition-all border border-transparent bg-transparent`}

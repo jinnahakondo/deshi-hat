@@ -56,7 +56,6 @@ export default function Cart() {
                         <DrawerClose asChild>
                             <Button
                                 onClick={() => {
-                                    useCartStore.getState().clearCheckOutItem();
                                     router.push('/checkout')
                                 }}
                                 className="cursor-pointer">

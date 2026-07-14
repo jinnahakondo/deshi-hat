@@ -29,21 +29,17 @@ interface UpdateQuantity {
 
 interface CartState {
     cartItems: CartItem[];
-    checkOutItem: CartItem | null;
     isLoading: boolean;
 
     addToCart: ({ product, userId }: AddToCart) => void;
     removeCartItem: ({ product, userId }: RemoveCartItem) => void;
     updateQuantity: ({ productId, quantity, userId, type }: UpdateQuantity) => void;
-    setCheckOutItem: (cartItem: CartItem) => void;
-    clearCheckOutItem: () => void;
 }
 
 
 
 const store: StateCreator<CartState> = (set, get) => ({
     cartItems: [],
-    checkOutItem: null,
     isLoading: false,
 
 
@@ -86,8 +82,6 @@ const store: StateCreator<CartState> = (set, get) => ({
 
         set({ cartItems: updatedItems })
     },
-    setCheckOutItem: (cartItem) => set({ checkOutItem: cartItem }),
-    clearCheckOutItem: () => set({ checkOutItem: null })
 })
 
 

@@ -11,7 +11,7 @@ export default function BuyNowButton({ children, product }: {
     product: ProductType<CategoryType>
 }) {
 
-    const setCheckOutItem = useCartStore(state => state.setCheckOutItem)
+    const addToCart = useCartStore(state => state.addToCart)
 
     const router = useRouter();
 
@@ -26,8 +26,8 @@ export default function BuyNowButton({ children, product }: {
     return (
         <Button
             onClick={() => {
+                addToCart({ product: checkoutItem })
                 router.push('/checkout')
-                setCheckOutItem(checkoutItem)
             }
             }
 
