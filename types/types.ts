@@ -42,15 +42,15 @@ export interface ProductType<TCategory = string> {
 
 
 export interface CartItemType<TItem = string> {
-  _id: Types.ObjectId;
+  _id?: Types.ObjectId;
   product: TItem;
   quantity: number;
 }
 
 
-export interface CartType {
+export interface CartType<TItem = string> {
   user?: Types.ObjectId;
-  items: CartItemType[];
+  items: CartItemType<TItem>[];
   createdAt?: Date;
   updatedAt?: Date;
 }

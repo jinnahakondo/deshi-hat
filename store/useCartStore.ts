@@ -1,6 +1,10 @@
 import { create } from 'zustand';
 import { persist, devtools } from 'zustand/middleware';
 import { StateCreator } from "zustand";
+import { verifyAuth } from '@/lib/auth/verifyAuth';
+import { getCartData } from '@/lib/fetchData';
+import { CartItemType, CartType } from '@/types/types';
+import { Types } from 'mongoose';
 
 
 export interface CartItem {
@@ -34,6 +38,8 @@ interface CartState {
     addToCart: ({ product, userId }: AddToCart) => void;
     removeCartItem: ({ product, userId }: RemoveCartItem) => void;
     updateQuantity: ({ productId, quantity, userId, type }: UpdateQuantity) => void;
+    clearCart: (userId?: string | null) => void;
+    // mergeCartWithDb: () => void;
 }
 
 
@@ -82,6 +88,31 @@ const store: StateCreator<CartState> = (set, get) => ({
 
         set({ cartItems: updatedItems })
     },
+    clearCart: (userId) => {
+        set({ cartItems: [] })
+    },
+    // mergeCartWithDb: async () => {
+    //     const { user } = await verifyAuth();
+    //     if (!user) return;
+
+    //     const localCart = get().cartItems;
+    //     const dbCart = await getCartData();
+    //     const mergedCart = [...new Set([...localCart, ...dbCart])];
+
+    //     set({ cartItems: mergedCart });
+
+    //     const items = mergedCart.map(cart => ({
+    //         product: new Types.ObjectId(cart._id,),
+    //         quantity: Number(cart.quantity),
+
+    //     }))
+
+    //     const finalCart: CartType<Types.ObjectId> = {
+    //         user: new Types.ObjectId(user.id),
+    //         items
+    //     }
+
+    // }
 })
 
 
