@@ -101,7 +101,7 @@ export const getCategoryWiseProduct = async (categorySlug: string) => {
 
 
 // client api 
-export const getCartData = async () => {
+export const getDBCartData = async () => {
     const res = await axiosInstance.get("/api/cart")
     return res.data
 }
@@ -129,7 +129,7 @@ export const updateDBItemQty = async ({ itemId, quantity, type }: UpdateDBItemQt
     return res.data
 }
 
-export const mergeCartDb = async (cart: CartItemType[]) => {
-    const res = await axiosInstance.post('/api/cart/merge', cart)
+export const mergeDBCart = async (items: CartItemType[]) => {
+    const res = await axiosInstance.post('/api/cart/merge', items)
     return res.data;
 }

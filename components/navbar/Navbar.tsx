@@ -16,14 +16,7 @@ import { useCartStore } from '@/store/useCartStore'
 export default function Navbar() {
 
     const { data: session, status } = useSession()
-    // const mergeCartWithDb = useCartStore(state => state.mergeCartWithDb)
 
-    // useEffect(() => {
-
-    //     if (status === "authenticated") {
-    //         mergeCartWithDb()
-    //     }
-    // }, [status, mergeCartWithDb])
 
     return (
         <div className='w-full h-20 bg-background border-b border-border '>

@@ -19,7 +19,7 @@ export async function GET() {
 
         const modifiedResult = result.map(item => (
             {
-                _id: item?._id,
+                _id: item?.product?._id,
                 title: item?.product?.title,
                 image: item?.product?.images[0],
                 price: item?.product?.price,

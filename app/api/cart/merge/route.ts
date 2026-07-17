@@ -2,6 +2,7 @@ import { verifyAuth } from "@/lib/auth/verifyAuth";
 import { connectDb } from "@/lib/db/db";
 import { response } from "@/lib/helperFunction";
 import Cart from "@/schemas/cart.schema";
+import { CartItemType } from "@/types/types";
 import { Types } from "mongoose";
 import { NextRequest } from "next/server";
 
@@ -17,13 +18,16 @@ export async function POST(req: NextRequest) {
 
         const items = await req.json();
 
-        const cartItems = items.map((item: ItemType) => ({
-            user: new Types.ObjectId(user.id),
-            product: new Types.ObjectId(item?.product),
+        console.log(items);
+
+        const cartItems = items.map((item: CartItemType) => ({
+            user: user.id,
+            product: item._id,
             quantity: item?.quantity || 1
         }))
 
-        await Cart.deleteMany({});
+        console.log("cartItems", cartItems);
+        await Cart.deleteMany({ user: user.id });
 
         const result = await Cart.insertMany(cartItems);
 

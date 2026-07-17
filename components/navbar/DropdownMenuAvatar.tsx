@@ -20,9 +20,12 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { signOut } from "next-auth/react"
+import { useCartStore } from "@/store/useCartStore"
 
 
 export function DropdownMenuAvatar({ user }: { user: any }) {
+
+  const clearCart = useCartStore(state => state.clearCart)
 
   return (
     <DropdownMenu>
@@ -50,7 +53,10 @@ export function DropdownMenuAvatar({ user }: { user: any }) {
           </DropdownMenuItem>
         </DropdownMenuGroup>
         <DropdownMenuSeparator />
-        <DropdownMenuItem onSelect={() => signOut()}>
+        <DropdownMenuItem onSelect={() => {
+          signOut();
+          clearCart();
+        }}>
           <LogOutIcon />
           Sign Out
         </DropdownMenuItem>
