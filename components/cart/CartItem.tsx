@@ -78,7 +78,7 @@ export function CartItem({ item }: ItemType) {
 
             {/* Remove Button */}
             <Button
-                onClick={() => removeCartItem({ product: item })}
+                onClick={() => removeCartItem(item._id)}
                 variant="ghost"
                 size="icon"
                 className=" h-8 w-8 rounded-full text-muted-foreground hover:text-destructive hover:bg-destructive/10"

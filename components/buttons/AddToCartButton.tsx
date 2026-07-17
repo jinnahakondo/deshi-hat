@@ -4,7 +4,7 @@ import { Button } from '../ui/button'
 import { ShoppingCart } from 'lucide-react'
 import { toast } from 'sonner'
 import { useCartStore } from '@/store/useCartStore'
-import { CategoryType, ProductType } from '@/types/types'
+import { CartItemType, CategoryType, ProductType } from '@/types/types'
 
 
 interface Props {
@@ -14,23 +14,22 @@ interface Props {
 
 export default function AddToCartButton({ product }: Props) {
 
-    const cartItem = {
-        _id: product._id,
-        slug: product.slug,
-        title: String(product?.title),
-        image: String(product?.images[0]),
-        price: Number(product?.price),
-        quantity: 1
-    }
 
 
     const addToCart = useCartStore(state => state.addToCart)
 
+    const newCartItem: CartItemType = {
+        _id: product._id,
+        title: product.title,
+        image: product.images[0],
+        price: product.price,
+        quantity: 1
+    }
 
     return (
         <Button
             onClick={() => {
-                addToCart({ product: cartItem })
+                addToCart(newCartItem)
                 toast.success("Product added to cart")
             }}
             size="lg" className={` cursor-pointer`}>

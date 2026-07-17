@@ -1,27 +1,9 @@
 import { create } from 'zustand';
 import { persist, devtools } from 'zustand/middleware';
 import { StateCreator } from "zustand";
-import { verifyAuth } from '@/lib/auth/verifyAuth';
-import { getCartData, mergeCartDb } from '@/lib/fetchData';
-import { CartItemType, CartType, ProductType } from '@/types/types';
+import { CartItemType } from '@/types/types';
 
 
-
-export interface CartItem {
-    slug: string;
-    title: string;
-    image: string;
-    price: number;
-    quantity: number;
-}
-
-// actions 
-interface AddToCart {
-    product: CartItem;
-    userId?: string | null
-};
-
-type RemoveCartItem = AddToCart;
 
 interface UpdateQuantity {
     productId: string;
@@ -32,11 +14,11 @@ interface UpdateQuantity {
 
 
 interface CartState {
-    cartItems: CartItem[];
+    cartItems: CartItemType[];
     isLoading: boolean;
 
-    addToCart: ({ product, userId }: AddToCart) => void;
-    removeCartItem: ({ product, userId }: RemoveCartItem) => void;
+    addToCart: (newItem: CartItemType) => Promise<void>;
+    removeCartItem: (itemId: string) => void;
     updateQuantity: ({ productId, quantity, userId, type }: UpdateQuantity) => void;
     clearCart: (userId?: string | null) => void;
     // mergeCartWithDb: () => Promise<void>;
@@ -49,23 +31,25 @@ const store: StateCreator<CartState> = (set, get) => ({
     isLoading: false,
 
 
-    addToCart: ({ product }) => {
+    addToCart: async (newItem) => {
         const currentItems = get().cartItems;
-        const existingItem = currentItems.find(item => item._id === product._id);
+
+        const existingItem = currentItems.find(item => item._id === newItem._id);
+
         const updatedItems = existingItem ?
-            currentItems.map(item => item._id === product._id ?
+            currentItems.map(item => item._id === newItem._id ?
                 { ...item, quantity: item.quantity + 1 }
                 :
                 item
             )
             :
-            [...currentItems, product];
+            [...currentItems, newItem];
 
         set({ cartItems: updatedItems })
     },
-    removeCartItem: ({ product }) => set(state => (
+    removeCartItem: (itemId) => set(state => (
         {
-            cartItems: state.cartItems.filter(item => item._id !== product._id)
+            cartItems: state.cartItems.filter(item => item._id !== itemId)
         }
     )),
     updateQuantity: ({ productId, quantity, userId, type }) => {
