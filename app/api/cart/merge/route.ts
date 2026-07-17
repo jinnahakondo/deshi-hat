@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
 
         const items = await req.json();
 
-        const cartItems = items.map((item: IItem) => ({
+        const cartItems = items.map((item: ItemType) => ({
             user: new Types.ObjectId(user.id),
             product: new Types.ObjectId(item?.product),
             quantity: item?.quantity
