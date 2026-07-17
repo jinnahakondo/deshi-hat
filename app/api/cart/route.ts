@@ -41,3 +41,36 @@ export async function GET() {
     }
 }
 
+export async function POST(req: NextRequest) {
+    try {
+        await connectDb();
+        const { user } = await verifyAuth();
+
+        const { product, quantity = 1 }: ItemType = await req.json();
+
+        const result = await Cart.findOneAndUpdate(
+            {
+                user: user.id,
+                product
+            },
+            {
+                $inc: { quantity }
+            },
+            {
+                upsert: true,
+                new: true
+            }
+        )
+
+        return response.success({
+            message: 'item added to cart',
+            data: result,
+        })
+
+    } catch (error: any) {
+        return response.error({
+            message: "failed to add cart item",
+            error: error.message
+        })
+    }
+}
