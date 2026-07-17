@@ -4,15 +4,21 @@ import { response } from "@/lib/helperFunction";
 import Cart from "@/schemas/cart.schema";
 import { NextRequest } from "next/server";
 
-export default async function POST(req: NextRequest) {
+export async function POST(req: NextRequest) {
     try {
         await connectDb();
         const { user } = await verifyAuth();
 
         const cartData = await req.json();
 
-        const cart = Cart.find({ user: user.id })
-        const result = await Cart.create(cart);
+        const result = await Cart.findOneAndUpdate(
+            { user: user.id },
+            { items: cartData },
+            {
+                upsert: true,
+                new: true
+            }
+        );
 
         return response.success({
             data: result,

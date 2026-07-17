@@ -1,4 +1,4 @@
-import { CartType, CategoryType, ProductType } from "@/types/types";
+import { CartItemType, CartType, CategoryType, ProductType } from "@/types/types";
 import axiosInstance from "./axiosInstance";
 
 
@@ -123,14 +123,7 @@ export const updateQuantity = async ({ itemId, value }: {
     return res.data
 }
 
-export const mergeCartDb = async (cart: CartType) => {
-    const url = `${process.env.BASE_URL}/api/cart/merge`
-    const res = await fetch(url, {
-        method: "POST",
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(cart)
-    });
-    return res;
+export const mergeCartDb = async (cart: CartItemType[]) => {
+    const res = await axiosInstance.post('/api/cart/merge', cart)
+    return res.data;
 }

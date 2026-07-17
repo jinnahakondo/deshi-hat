@@ -41,19 +41,17 @@ export interface ProductType<TCategory = string> {
 }
 
 
-export interface CartItemType<TItem = string> {
+export interface CartItemType {
   _id?: string;
-  product: TItem;
+  title: string;
+  image: string;
+  price: number;
   quantity: number;
-}
-
-
-export interface CartType {
-  user?: string;
-  items: CartItemType[];
   createdAt?: Date;
   updatedAt?: Date;
 }
+
+
 
 export interface ReviewType<
   TUser = string,

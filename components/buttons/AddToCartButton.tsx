@@ -15,7 +15,8 @@ interface Props {
 export default function AddToCartButton({ product }: Props) {
 
     const cartItem = {
-        _id: String(product?._id),
+        _id: product._id,
+        slug: product.slug,
         title: String(product?.title),
         image: String(product?.images[0]),
         price: Number(product?.price),

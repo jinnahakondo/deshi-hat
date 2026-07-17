@@ -17,6 +17,7 @@ import { baseSchema } from "@/lib/zod/zodSchema";
 import SocialLogin from "./SocialLogin";
 import Link from "next/link";
 import { signIn } from "next-auth/react"
+import { useCartStore } from "@/store/useCartStore";
 
 
 const loginSchema = baseSchema.pick({ email: true, password: true })
@@ -24,6 +25,7 @@ type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function Login() {
 
+  const mergeCartWithDb = useCartStore(state => state.mergeCartWithDb)
 
   const {
     register,
@@ -48,7 +50,8 @@ export default function Login() {
       redirect: false,
     })
     if (res?.ok) {
-      alert("login in success")
+      alert("login in success");
+      mergeCartWithDb()
     } else {
       alert(res?.error)
     }
