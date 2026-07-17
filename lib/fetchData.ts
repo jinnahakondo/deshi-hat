@@ -1,6 +1,11 @@
-import { CartItemType, CartType, CategoryType, ProductType } from "@/types/types";
+import { CartItemType, CategoryType, ProductType } from "@/types/types";
 import axiosInstance from "./axiosInstance";
 
+interface UpdateDBItemQty {
+    itemId: string,
+    quantity?: number,
+    type: 'INCREMENT' | 'DECREMENT' | 'QUANTITY'
+}
 
 export const getSingleProduct = async (
     slug: string
@@ -114,12 +119,13 @@ export const removeDBCartItem = async (itemId: string) => {
 
 }
 
-export const updateQuantity = async ({ itemId, value }: {
-    itemId: string, value: number
-}) => {
-    const res = await axiosInstance.patch(`/api/cart/${itemId}`,
-        { value }
+export const updateDBItemQty = async ({ itemId, quantity, type }: UpdateDBItemQty) => {
+    const res = await axiosInstance.patch(
+        '/api/cart/quantity',
+        { quantity, type, product: itemId }
     )
+
+
     return res.data
 }
 

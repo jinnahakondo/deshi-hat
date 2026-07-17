@@ -2,14 +2,14 @@ import { create } from 'zustand';
 import { persist, devtools } from 'zustand/middleware';
 import { StateCreator } from "zustand";
 import { CartItemType } from '@/types/types';
-import { addToCartDB, removeDBCartItem } from '@/lib/fetchData';
+import { addToCartDB, removeDBCartItem, updateDBItemQty } from '@/lib/fetchData';
 
 
 
 interface UpdateQuantity {
-    productId: string;
+    status: boolean;
+    itemId: string;
     quantity?: number;
-    userId?: string | null;
     type: 'INCREMENT' | 'DECREMENT' | 'QUANTITY'
 }
 
@@ -30,7 +30,7 @@ interface CartState {
 
     addToCart: ({ status, newItem }: AddToCart) => Promise<void>;
     removeCartItem: ({ status, itemId }: IRemoveCartItem) => Promise<void>;
-    updateQuantity: ({ productId, quantity, userId, type }: UpdateQuantity) => void;
+    updateQuantity: ({ status, itemId, quantity, type }: UpdateQuantity) => Promise<void>;
     clearCart: (userId?: string | null) => void;
     // mergeCartWithDb: () => Promise<void>;
 }
@@ -84,10 +84,10 @@ const store: StateCreator<CartState> = (set, get) => ({
             }
         }
     },
-    updateQuantity: ({ productId, quantity, userId, type }) => {
+    updateQuantity: async ({ status, itemId, quantity, type }) => {
         const currentItems = get().cartItems;
 
-        const updatedItems = currentItems.map(item => item._id === productId ?
+        const updatedItems = currentItems.map(item => item._id === itemId ?
             {
                 ...item,
                 quantity: type === 'INCREMENT' ?
@@ -103,6 +103,16 @@ const store: StateCreator<CartState> = (set, get) => ({
         );
 
         set({ cartItems: updatedItems })
+
+        // update db cart item quantity 
+        if (status) {
+            try {
+                await updateDBItemQty({ itemId, type })
+            } catch (error) {
+                console.log(error);
+            }
+        }
+
     },
     clearCart: (userId) => {
         set({ cartItems: [] })

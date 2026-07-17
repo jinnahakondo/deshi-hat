@@ -46,7 +46,11 @@ export function CartItem({ item }: ItemType) {
                     <div className="flex items-center border border-input rounded-full bg-background h-7 overflow-hidden">
                         <Button
                             onClick={() => updateQuantity(
-                                { productId: item._id, type: 'DECREMENT' }
+                                {
+                                    itemId: item?._id,
+                                    status: status === 'authenticated',
+                                    type: "DECREMENT"
+                                }
                             )}
                             disabled={item.quantity === 1}
                             variant="ghost"
@@ -61,7 +65,11 @@ export function CartItem({ item }: ItemType) {
                         </span>
                         <Button
                             onClick={() => updateQuantity(
-                                { productId: item._id, type: 'INCREMENT' }
+                                {
+                                    itemId: item?._id,
+                                    status: status === 'authenticated',
+                                    type: "INCREMENT"
+                                }
                             )}
                             variant="ghost"
                             size="icon"
