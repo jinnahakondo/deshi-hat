@@ -6,8 +6,18 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
 import { FaBangladeshiTakaSign } from "react-icons/fa6";
+import { useCartStore } from "@/store/useCartStore";
 
 export default function OrderSummaryCard() {
+
+    const deleveryFee = 40;
+    const cartItems = useCartStore(state => state.cartItems);
+    const totalPrice = cartItems.reduce((total, item) => {
+        return total + (Number(item.price) * Number(item.quantity))
+    }, 0)
+
+    console.log({ totalPrice });
+
 
     return (
         <Card className="w-full bg-card text-card-foreground border border-border shadow-md">
@@ -38,11 +48,11 @@ export default function OrderSummaryCard() {
                 <div className="space-y-4 text-sm md:text-base font-medium">
                     <div className="flex justify-between items-center">
                         <span className="text-muted-foreground">
-                            Items Total (5 Items)
+                            Items Total ({cartItems.length} Items)
                         </span>
                         <span className="font-semibold flex items-center">
                             <FaBangladeshiTakaSign />
-                            <span>1500</span>
+                            <span>{totalPrice}</span>
                         </span>
                     </div>
 
@@ -50,7 +60,7 @@ export default function OrderSummaryCard() {
                         <span className="text-muted-foreground">Delivery Fee</span>
                         <span className="font-semibold flex items-center">
                             <FaBangladeshiTakaSign />
-                            <span> 40</span>
+                            <span> {deleveryFee}</span>
                         </span>
                     </div>
 
@@ -64,7 +74,7 @@ export default function OrderSummaryCard() {
                         <span className="text-lg font-semibold">Total:</span>
                         <span className=" md:text-xl font-extrabold text-primary tracking-tight flex items-center">
                             <FaBangladeshiTakaSign />
-                            <span>1540</span>
+                            <span>{totalPrice + deleveryFee}</span>
                         </span>
                     </div>
 

@@ -40,7 +40,7 @@ interface CartState {
 const store: StateCreator<CartState> = (set, get) => ({
     cartItems: [],
     isLoading: false,
-
+    totalPrice: 0,
 
     addToCart: async ({ status, newItem }) => {
         const currentItems = get().cartItems;

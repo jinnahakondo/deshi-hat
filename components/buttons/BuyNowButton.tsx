@@ -2,20 +2,23 @@
 "use client"
 import React from 'react'
 import { Button } from '../ui/button'
-import { CartItem, useCartStore } from '@/store/useCartStore'
-import { CategoryType, ProductType } from '@/types/types'
+import { useCartStore } from '@/store/useCartStore'
+import { CartItemType, CategoryType, ProductType } from '@/types/types'
 import { useRouter } from 'next/navigation'
+import { useSession } from 'next-auth/react'
 
 export default function BuyNowButton({ children, product }: {
     children: React.ReactNode,
     product: ProductType<CategoryType>
 }) {
 
+    const { status } = useSession()
+
     const addToCart = useCartStore(state => state.addToCart)
 
     const router = useRouter();
 
-    const checkoutItem: CartItem = {
+    const newItem: CartItemType = {
         _id: product._id,
         title: product.title,
         image: product.images[0],
@@ -26,7 +29,9 @@ export default function BuyNowButton({ children, product }: {
     return (
         <Button
             onClick={() => {
-                addToCart({ product: checkoutItem })
+                addToCart(
+                    { newItem, status: status === 'authenticated' }
+                )
                 router.push('/checkout')
             }
             }

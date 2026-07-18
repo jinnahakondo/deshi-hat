@@ -12,11 +12,15 @@ export default function CheckOutPageClient() {
 
     const router = useRouter();
 
-    useEffect(() => {
-        if (cartItems.length === 0) {
-            return router.push('/');
-        }
-    }, [cartItems.length, router])
+ useEffect(() => {
+  if (cartItems.length > 0) return;
+
+  const timeout = setTimeout(() => {
+    router.push('/');
+  }, 1000);
+
+  return () => clearTimeout(timeout);
+}, [cartItems.length]);
 
     return (
         <div className='py-16'>

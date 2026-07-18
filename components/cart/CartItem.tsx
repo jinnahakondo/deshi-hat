@@ -4,8 +4,8 @@ import Image from "next/image";
 import { Minus, Plus, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCartStore } from "@/store/useCartStore";
-import { CartItem as CartItemType } from "@/store/useCartStore";
 import { useSession } from "next-auth/react";
+import { CartItemType } from "@/types/types";
 
 interface ItemType {
     item: CartItemType
@@ -47,7 +47,7 @@ export function CartItem({ item }: ItemType) {
                         <Button
                             onClick={() => updateQuantity(
                                 {
-                                    itemId: item?._id,
+                                    itemId: String(item?._id),
                                     status: status === 'authenticated',
                                     type: "DECREMENT"
                                 }
@@ -66,7 +66,7 @@ export function CartItem({ item }: ItemType) {
                         <Button
                             onClick={() => updateQuantity(
                                 {
-                                    itemId: item?._id,
+                                    itemId: String(item?._id),
                                     status: status === 'authenticated',
                                     type: "INCREMENT"
                                 }
@@ -92,7 +92,7 @@ export function CartItem({ item }: ItemType) {
                 onClick={() => removeCartItem(
                     {
                         status: status === 'authenticated',
-                        itemId: item?._id
+                        itemId: String(item?._id)
                     }
                 )}
                 variant="ghost"

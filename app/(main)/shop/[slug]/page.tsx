@@ -1,6 +1,5 @@
 import AddToCartButton from '@/components/buttons/AddToCartButton'
 import BuyNowButton from '@/components/buttons/BuyNowButton'
-import QuantityButton from '@/components/buttons/QuantityButton'
 import DynamicBreadcrumb from '@/components/shared/DynamicBreadcrumb'
 import ImageGallery from '@/components/shop/ImageGallery'
 import ProductDescriptionReviewsTab from '@/components/shop/ProductDescription&ReviewsTab'
@@ -10,6 +9,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { productDetailsBreadcrumbs } from '@/data/breadcrumbData'
 import { getSingleProduct } from '@/lib/fetchData'
 import { Award, Clock, ShieldCheck, Star } from 'lucide-react'
+import { FaBangladeshiTakaSign } from 'react-icons/fa6'
 
 
 export default async function ProductDetails({ params }:
@@ -67,19 +67,20 @@ export default async function ProductDetails({ params }:
                         <div className="pt-2 flex items-baseline gap-3">
                             {product.discountPrice ? (
                                 <>
-                                    <span className="text-4xl font-bold tracking-tight text-foreground">
-                                        ${product.discountPrice.toFixed(2)}
+                                    <span className="text-4xl font-bold tracking-tight text-foreground flex items-center">
+                                        <FaBangladeshiTakaSign />
+                                        {product.discountPrice.toFixed(2)}
                                     </span>
-                                    <span className="text-xl text-muted-foreground line-through">
-                                        ${product.price.toFixed(2)}
+                                    <span className="text-xl text-muted-foreground line-through flex items-center">
+                                        <FaBangladeshiTakaSign /> {product.price.toFixed(2)}
                                     </span>
                                     <Badge variant="destructive" className="ml-2">
                                         Save {savings}%
                                     </Badge>
                                 </>
                             ) : (
-                                <span className="text-4xl font-bold tracking-tight text-foreground">
-                                    ${product.price.toFixed(2)}
+                                <span className="text-4xl font-bold tracking-tight text-foreground flex items-center">
+                                    <FaBangladeshiTakaSign /> {product.price.toFixed(2)}
                                 </span>
                             )}
                         </div>

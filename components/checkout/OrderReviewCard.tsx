@@ -4,10 +4,19 @@ import Image from "next/image";
 import { Trash2 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CartItem, useCartStore } from "@/store/useCartStore";
+import { useCartStore } from "@/store/useCartStore";
+import { useSession } from "next-auth/react";
 
 
 export default function OrderReviewCard() {
+
+    const { status } = useSession();
+
+    const cartItems = useCartStore(state => state.cartItems);
+
+    const updateQuantity = useCartStore(state => state.updateQuantity);
+
+    const removeCartItem = useCartStore(state => state.removeCartItem)
 
     const formatBDT = (amount: number) => {
         return new Intl.NumberFormat("en-BD", {
@@ -16,8 +25,7 @@ export default function OrderReviewCard() {
         }).format(amount) + " ৳";
     };
 
-    const cartItems = useCartStore(state => state.cartItems)
-    const updateQuantity = useCartStore(state => state.updateQuantity)
+
 
     return (
         <Card className="w-full bg-card text-card-foreground border border-border shadow-sm">
@@ -62,7 +70,9 @@ export default function OrderReviewCard() {
                                             size="icon"
                                             className="h-7 w-7 rounded-md font-semibold text-muted-foreground hover:bg-background"
                                             onClick={() => updateQuantity({
-                                                productId: item._id, type: "DECREMENT"
+                                                itemId: String(item?._id),
+                                                status: status === "authenticated",
+                                                type: 'DECREMENT'
                                             })}
                                         >
                                             -
@@ -75,7 +85,9 @@ export default function OrderReviewCard() {
                                             size="icon"
                                             className="h-7 w-7 rounded-md font-semibold text-muted-foreground hover:bg-background"
                                             onClick={() => updateQuantity({
-                                                productId: item._id, type: "INCREMENT"
+                                                itemId: String(item?._id),
+                                                status: status === "authenticated",
+                                                type: 'INCREMENT'
                                             })}
                                         >
                                             +
@@ -100,7 +112,10 @@ export default function OrderReviewCard() {
                                     <Button
                                         variant="ghost"
                                         size="icon"
-
+                                        onClick={() => removeCartItem({
+                                            status: status === 'authenticated',
+                                            itemId: String(item._id)
+                                        })}
                                         className="h-8 w-8 text-destructive/70 hover:text-destructive hover:bg-destructive/10 rounded-md"
                                     >
                                         <Trash2 className="w-4 h-4" />

@@ -1,6 +1,7 @@
 import ProductCard from '@/components/ProductCard';
 import Title from '@/components/shared/SectionTitle';
 import { getCategoryWiseProduct } from '@/lib/fetchData';
+import { CategoryType, ProductType } from '@/types/types';
 
 import React, { ReactNode } from 'react'
 
@@ -23,7 +24,7 @@ export default async function CategoryWiseProducts(
             <Title>{children}</Title>
             <div className='grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6'>
                 {
-                    categoryWiseProducts?.map(product => <ProductCard key={product._id} product={product} />
+                    categoryWiseProducts?.map((product) => <ProductCard key={product._id} product={product} />
                     )
                 }
             </div>

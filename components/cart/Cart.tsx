@@ -5,13 +5,18 @@ import { Drawer, DrawerClose, DrawerContent, DrawerDescription, DrawerFooter, Dr
 import CartButton from '../buttons/CartButton';
 import { CartItem } from "./CartItem";
 import { Button } from "../ui/button";
-import { CartItem as CartType, useCartStore } from "@/store/useCartStore";
+import { useCartStore } from "@/store/useCartStore";
 import { useRouter } from "next/navigation";
+import { CartItemType } from "@/types/types";
 
 
 export default function Cart() {
 
     const cart = useCartStore(state => state.cartItems);
+    // const totalPrice = cart.reduce((total, item) => {
+    //     return total + (Number(item.price) * Number(item.quantity))
+    // }, 0)
+
     const router = useRouter()
 
     return (
@@ -41,7 +46,7 @@ export default function Cart() {
                 {/* cart data */}
 
                 <div className="space-y-4 mt-4 overflow-y-auto">
-                    {cart.map((item: CartType) => <CartItem
+                    {cart.map((item: CartItemType) => <CartItem
                         key={item._id}
                         item={item}
                     />)}

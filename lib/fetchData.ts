@@ -86,7 +86,7 @@ export const getCategoryWiseProduct = async (categorySlug: string) => {
             throw new Error("failed to fetch category wise product")
         }
 
-        const { data }: { data: ProductType[] } = await res.json()
+        const { data }: { data: ProductType<CategoryType>[] } = await res.json()
 
         return data;
 

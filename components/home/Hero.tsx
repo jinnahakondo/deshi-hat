@@ -38,18 +38,18 @@ export function Hero() {
 
     const plugin = React.useMemo(() => Autoplay(
         {
-            delay: 2000,
+            delay: 3000,
             stopOnInteraction: false,
             stopOnMouseEnter: true
         }), [])
 
-    const Slides = ["/images/hero.png", "/images/hero2.jpeg", "/images/hero3.png"]
+    const Slides = ["/images/hero-beauty.png", "/images/hero-electronic.png", "/images/hero-grocery.png", '/images/hero-fitness.jpg']
 
     return (
         <Carousel
             setApi={setApi}
             plugins={[plugin]}
-            className="relative"
+            className="relative pt-16"
         >
             <CarouselContent>
                 {Slides.map((slideImg, index) => (
