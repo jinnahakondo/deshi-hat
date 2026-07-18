@@ -10,6 +10,7 @@ import { links } from './navLinks'
 import { useSession } from 'next-auth/react'
 import { DropdownMenuAvatar } from './DropdownMenuAvatar'
 import { useCartStore } from '@/store/useCartStore'
+import Logo from '../logo/Logo'
 
 
 
@@ -28,7 +29,7 @@ export default function Navbar() {
                         {/* Mobile Menu Button */}
                         <Sidebar user={session?.user} />
                         {/* Logo */}
-                        <h2 className='text-lg md:text-2xl font-bold text-foreground tracking-tight ml-2 md:ml-0'>DeshiHat</h2>
+                        <Logo />
                     </div>
 
                     {/* Navigation Links */}

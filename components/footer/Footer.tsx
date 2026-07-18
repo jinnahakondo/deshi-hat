@@ -1,6 +1,7 @@
 import React from "react"
 import Link from "next/link"
 import { Globe, Network, Terminal } from "lucide-react"
+import Logo from "../logo/Logo"
 
 export default function Footer() {
   return (
@@ -8,12 +9,12 @@ export default function Footer() {
       <div className="max-w-7xl mx-auto">
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8 pb-12">
-          
+
           {/* Left Column: Brand & Description */}
           <div className="md:col-span-6 flex flex-col gap-4">
-            <h2 className="text-xl font-bold tracking-tight">Aetheria</h2>
+            <Logo />
             <p className="text-muted-foreground max-w-sm text-sm leading-relaxed">
-              The world&apos;s leading marketplace for AI-enhanced hardware and intelligent software solutions. 
+              The world&apos;s leading marketplace for AI-enhanced hardware and intelligent software solutions.
               Empowering humans through precision technology.
             </p>
             {/* Social / Tool Icons */}
@@ -32,7 +33,7 @@ export default function Footer() {
 
           {/* Right Columns: Links */}
           <div className="md:col-span-6 grid grid-cols-3 gap-4">
-            
+
             {/* Marketplace Links */}
             <div className="flex flex-col gap-3">
               <h3 className="text-xs font-bold uppercase tracking-wider text-foreground">
@@ -81,7 +82,7 @@ export default function Footer() {
             <span className="font-mono">v4.2.0-Alpha</span>
           </div>
         </div>
-        
+
       </div>
     </footer>
   )

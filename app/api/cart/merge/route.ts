@@ -3,7 +3,6 @@ import { connectDb } from "@/lib/db/db";
 import { response } from "@/lib/helperFunction";
 import Cart from "@/schemas/cart.schema";
 import { CartItemType } from "@/types/types";
-import { Types } from "mongoose";
 import { NextRequest } from "next/server";
 
 export interface ItemType {
