@@ -41,7 +41,7 @@ export function DropdownMenuAvatar({ user }: { user: any }) {
         <DropdownMenuGroup>
           <DropdownMenuItem>
             <BadgeCheckIcon />
-            Account
+            <a href="/dashboard">Account</a>
           </DropdownMenuItem>
           <DropdownMenuItem>
             <CreditCardIcon />

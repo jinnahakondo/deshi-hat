@@ -2,9 +2,6 @@
 
 import * as React from "react"
 
-import { NavDocuments } from "@/components/nav-documents"
-import { NavMain } from "@/components/nav-main"
-import { NavSecondary } from "@/components/nav-secondary"
 import { NavUser } from "@/components/nav-user"
 import {
   Sidebar,
@@ -15,168 +12,114 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { LayoutDashboardIcon, ListIcon, ChartBarIcon, FolderIcon, UsersIcon, CameraIcon, FileTextIcon, Settings2Icon, CircleHelpIcon, SearchIcon, DatabaseIcon, FileChartColumnIcon, FileIcon, CommandIcon } from "lucide-react"
+import { LayoutDashboardIcon, Archive, ShoppingBag, CreditCard, Package, MapPinned, Star, Heart, Users } from "lucide-react"
+import { useSession } from "next-auth/react"
+import Link from "next/link"
+import { NavItems } from "./nav-items"
+
 
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
-  navMain: [
+  navAdmin: [
     {
-      title: "Dashboard",
-      url: "#",
+      title: "Overview",
+      url: "/dashboard",
       icon: (
         <LayoutDashboardIcon
         />
       ),
     },
     {
-      title: "Lifecycle",
-      url: "#",
+      title: "Inventory",
+      url: "/dashboard/inventory",
       icon: (
-        <ListIcon
+        <Archive
         />
       ),
     },
     {
-      title: "Analytics",
-      url: "#",
+      title: "Orders",
+      url: "/dashboard/orders",
       icon: (
-        <ChartBarIcon
+        <ShoppingBag
         />
       ),
     },
     {
-      title: "Projects",
-      url: "#",
+      title: "Users",
+      url: "/dasboard/users",
       icon: (
-        <FolderIcon
+        <Users
         />
       ),
     },
     {
-      title: "Team",
-      url: "#",
+      title: "Payments",
+      url: "/dashboard/payments",
       icon: (
-        <UsersIcon
+        <CreditCard
         />
       ),
     },
   ],
-  navClouds: [
+  navUser: [
     {
-      title: "Capture",
+      title: "Overview",
+      url: "/dashboard",
       icon: (
-        <CameraIcon
+        <LayoutDashboardIcon
+        />
+      ),
+    },
+    {
+      title: "My Orders",
+      icon: (
+        <Package
         />
       ),
       isActive: true,
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
+      url: "/dashboard/my-orders",
     },
     {
-      title: "Proposal",
+      title: "Saved Addresses",
       icon: (
-        <FileTextIcon
+        <MapPinned
         />
       ),
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
+      url: "/dashboard/saved-addresses",
     },
     {
-      title: "Prompts",
+      title: "My Reviews",
       icon: (
-        <FileTextIcon
+        <Star
         />
       ),
-      url: "#",
-      items: [
-        {
-          title: "Active Proposals",
-          url: "#",
-        },
-        {
-          title: "Archived",
-          url: "#",
-        },
-      ],
-    },
-  ],
-  navSecondary: [
-    {
-      title: "Settings",
-      url: "#",
-      icon: (
-        <Settings2Icon
-        />
-      ),
+      url: "/dashboard/my-reviews",
     },
     {
-      title: "Get Help",
-      url: "#",
+      title: "My Wishlist",
       icon: (
-        <CircleHelpIcon
+        <Heart
         />
       ),
+      url: "/dashboard/my-wishlist",
     },
     {
-      title: "Search",
-      url: "#",
+      title: "My Payments",
       icon: (
-        <SearchIcon
+        <CreditCard
         />
       ),
-    },
-  ],
-  documents: [
-    {
-      name: "Data Library",
-      url: "#",
-      icon: (
-        <DatabaseIcon
-        />
-      ),
-    },
-    {
-      name: "Reports",
-      url: "#",
-      icon: (
-        <FileChartColumnIcon
-        />
-      ),
-    },
-    {
-      name: "Word Assistant",
-      url: "#",
-      icon: (
-        <FileIcon
-        />
-      ),
+      url: "/dashboard/my-payments",
     },
   ],
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+
+  const { data: session, status } = useSession()
+
+  const navItems = session?.user.role === "admin" ? data.navAdmin : data.navUser
+
   return (
     <Sidebar collapsible="offcanvas" {...props}>
       <SidebarHeader>
@@ -186,21 +129,23 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               asChild
               className="data-[slot=sidebar-menu-button]:p-1.5!"
             >
-              <a href="#">
-                <CommandIcon className="size-5!" />
-                <span className="text-base font-semibold">Acme Inc.</span>
-              </a>
+              <Link href="/">
+                <span className="text-base font-semibold">Paracom</span>
+              </Link>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
-        <NavDocuments items={data.documents} />
-        <NavSecondary items={data.navSecondary} className="mt-auto" />
+        <NavItems items={navItems} />
+        {/* <NavDocuments items={data.documents} />
+        <NavSecondary items={data.navSecondary} className="mt-auto" /> */}
       </SidebarContent>
       <SidebarFooter>
-        <NavUser user={data.user} />
+        {
+          session?.user &&
+          <NavUser user={session.user} />
+        }
       </SidebarFooter>
     </Sidebar>
   )
