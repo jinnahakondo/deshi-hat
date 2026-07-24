@@ -60,6 +60,7 @@ export default function SavedAddressesClient() {
           isAddressEditing={isAddressEditing}
           isDialogOpen={isDialogOpen}
           setIsDialogOpen={setIsDialogOpen}
+          savedAddresses={savedAddresses}
         />
       </div>
 
@@ -77,9 +78,9 @@ export default function SavedAddressesClient() {
         </Card>
       ) : (
         <div className="grid gap-4 md:grid-cols-2">
-          {savedAddresses.map((item) => (
+          {savedAddresses.map((item: Address) => (
             <Card
-              key={item.id}
+              key={item._id}
               className={`relative flex flex-col justify-between transition-colors ${item.isDefault ? "border-primary/50 bg-primary/5" : ""
                 }`}
             >
@@ -124,6 +125,10 @@ export default function SavedAddressesClient() {
                     variant="ghost"
                     size="icon"
                     className="h-8 w-8"
+                    onClick={() => {
+                      setIsDialogOpen(true),
+                        setIsAddressEditing(true)
+                    }}
                   >
                     <Pencil className="h-4 w-4" />
                   </Button>

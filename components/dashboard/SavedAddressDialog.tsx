@@ -6,11 +6,25 @@ import { Label } from '../ui/label'
 import { Input } from '../ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
 import { BD_LOCATION_DATA } from '@/data/locationData'
+import { Address } from './SavedAddressesClient'
+
+
 
 interface Props {
     isDialogOpen: boolean;
     setIsDialogOpen: (open: boolean) => void;
     isAddressEditing: boolean;
+    savedAddresses?: Address
+}
+
+const initialFormData = {
+    name: '',
+    phone: '',
+    division: '',
+    district: '',
+    city: '',
+    postalCode: '',
+    address: ''
 }
 
 export default function SavedAddressDialog(
@@ -19,36 +33,44 @@ export default function SavedAddressDialog(
         setIsDialogOpen,
         isAddressEditing,
     }: Props
-) {
 
+) {
     const [division, setDivision] = useState('')
+
     const divisions = Object.keys(BD_LOCATION_DATA);
 
-    console.log(division);
-
     // Get dynamic district options based on selected division
+
     const availableDistricts = useMemo(() => {
+
         if (!division) return [];
+
         return BD_LOCATION_DATA[division] || []
+
     }, [division])
 
-
     return (
+
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+
             <DialogTrigger asChild>
+
                 <Button className="gap-2">
+
                     <Plus className="h-4 w-4" /> Add Address
+
                 </Button>
+
             </DialogTrigger>
 
             <DialogContent className="sm:max-w-[500px]">
                 <DialogHeader>
                     <DialogTitle>
-                        {isAddressEditing ? "Edit Address" : "Add New Address"}
+                        Add New Address
                     </DialogTitle>
                 </DialogHeader>
-
                 <form className="space-y-4 pt-2">
+
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
                             <Label htmlFor="name">Full Name</Label>
@@ -66,7 +88,10 @@ export default function SavedAddressDialog(
                                 required
                             />
                         </div>
+
                     </div>
+
+
 
                     <div className="grid grid-cols-2 gap-4 ">
                         {/* Division Dropdown */}
@@ -76,19 +101,22 @@ export default function SavedAddressDialog(
                                 required
                                 onValueChange={(value) => setDivision(value)}
                             >
+
                                 <SelectTrigger className='w-full'>
                                     <SelectValue placeholder="Select Division" />
                                 </SelectTrigger>
+
                                 <SelectContent>
                                     {divisions.map((division) => (
                                         <SelectItem
                                             key={division}
                                             value={division}
-
                                         >
                                             {division}
                                         </SelectItem>
+
                                     ))}
+
                                 </SelectContent>
                             </Select>
                         </div>
@@ -114,7 +142,6 @@ export default function SavedAddressDialog(
                             </Select>
                         </div>
                     </div>
-
                     <div className="grid grid-cols-3 gap-4">
                         <div className="col-span-1 space-y-2">
                             <Label htmlFor="city">City / Upazila</Label>
@@ -139,9 +166,14 @@ export default function SavedAddressDialog(
                         <Input
                             id="address"
                             placeholder="House, road, locality..."
+
                             required
+
                         />
+
                     </div>
+
+
 
                     <DialogFooter className="pt-2">
                         <Button
@@ -152,7 +184,7 @@ export default function SavedAddressDialog(
                             Cancel
                         </Button>
                         <Button type="submit">
-                            {isAddressEditing ? "Update" : "Save"} Address
+                            Save Address
                         </Button>
                     </DialogFooter>
                 </form>
